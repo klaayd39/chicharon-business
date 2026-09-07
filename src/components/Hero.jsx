@@ -121,7 +121,12 @@ export default function Hero() {
                     transition={{ duration: 0.5, delay: 0.25 + i * 0.1, ease }}
                     className="product-card group"
                   >
-                    <ProductImage product={product} aspect="aspect-square" className="rounded-t-2xl" />
+                    <ProductImage
+                      product={product}
+                      aspect="aspect-[3/4]"
+                      className="rounded-t-2xl bg-cream"
+                      imageFit={product.imageFit}
+                    />
                     <div className="p-3 text-center">
                       <p className="font-display text-sm sm:text-base font-semibold text-brown group-hover:text-red transition-colors">
                         {product.name}

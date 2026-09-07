@@ -14,11 +14,23 @@ export const products = [
     category: 'chicharon',
     categoryLabel: 'Chicharon',
     description:
-      'Crispy, savory, and perfect for sharing or enjoying anytime.',
+      'Crispy, savory chicharon in 250g sealed packs — perfect for sharing or enjoying anytime.',
     longDescription:
-      'Our chicharon is made to deliver that satisfying crunch and savory flavor Filipinos love. Perfect for sharing with family and friends, or enjoying as a snack any time of day.',
-    image: '/images/chicharon.svg',
-    imageAlt: 'Crispy golden chicharon from Kingdams Foods',
+      'Our chicharon is made to deliver that satisfying crunch and savory flavor Filipinos love. Packed in 250g sealed bags and ready to enjoy — perfect for sharing with family and friends, or as a snack any time of day.',
+    image: '/images/chicharon-pack.jpg',
+    images: [
+      {
+        src: '/images/chicharon-pack.jpg',
+        alt: 'Kingdams Foods chicharon in a 250g sealed pack',
+      },
+      {
+        src: '/images/chicharon-display.jpg',
+        alt: 'Kingdams Foods chicharon packs on display',
+      },
+    ],
+    imageAlt: 'Kingdams Foods chicharon — crispy golden pork rinds in 250g pack',
+    imageFit: 'contain',
+    weight: '250g',
     price: null,
     unit: 'pack',
     availability: 'available',

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
-import ProductImage from '../components/ProductImage'
+import ProductGallery from '../components/product/ProductGallery'
 import Button from '../components/ui/Button'
 import AddToOrderButton from '../components/product/AddToOrderButton'
 import QuantityControl from '../components/ui/QuantityControl'
@@ -53,11 +53,7 @@ export default function ProductDetail() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <ProductImage
-            product={product}
-            aspect="aspect-square sm:aspect-[4/3] lg:aspect-square"
-            className="rounded-2xl"
-          />
+          <ProductGallery product={product} />
         </motion.div>
 
         <motion.div
@@ -75,6 +71,12 @@ export default function ProductDetail() {
           <p className="text-warm-gray text-sm sm:text-base leading-relaxed mb-5">
             {product.longDescription}
           </p>
+
+          {product.weight && (
+            <p className="text-sm text-brown/80 font-medium mb-4">
+              Pack size: {product.weight}
+            </p>
+          )}
 
           <p className="text-base font-medium text-warm-gray italic mb-6 sm:mb-8">
             {getPriceDisplay(product)}

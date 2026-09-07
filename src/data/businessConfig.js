@@ -4,6 +4,10 @@ export const businessConfig = {
     src: '/images/logo.png',
     alt: 'Kingdams Foods logo',
   },
+  promoImage: {
+    src: '/images/kingdams-promo.jpg',
+    alt: 'Kingdams Foods promotional poster showing easy-to-cook Filipino favorites including lumpia, tapa, tocino, longganisa, BBQ, and chicharon',
+  },
   tagline: 'Easy Meals, Pinoy Feels.',
   headline: 'Authentic Filipino Favorites, Made to Satisfy.',
   heroDescription:

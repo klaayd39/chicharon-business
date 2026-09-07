@@ -31,8 +31,9 @@ function PlaceholderVisual({ product }) {
   )
 }
 
-export default function ProductImage({ product, className = '', aspect = 'aspect-[4/3]' }) {
+export default function ProductImage({ product, className = '', aspect = 'aspect-[4/3]', imageFit }) {
   const [imgError, setImgError] = useState(!product.image)
+  const fit = imageFit ?? product.imageFit ?? 'cover'
 
   return (
     <div className={`relative overflow-hidden bg-cream-dark group ${aspect} ${className}`}>
@@ -42,7 +43,9 @@ export default function ProductImage({ product, className = '', aspect = 'aspect
           alt={product.imageAlt}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className={`absolute inset-0 h-full w-full transition-transform duration-500 ease-out group-hover:scale-105 ${
+            fit === 'contain' ? 'object-contain p-3 sm:p-4' : 'object-cover'
+          }`}
           onError={() => setImgError(true)}
         />
       )}

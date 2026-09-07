@@ -1,5 +1,6 @@
 import Hero from '../components/Hero'
 import ProductCard from '../components/ProductCard'
+import PromoShowcase from '../components/PromoShowcase'
 import WhyChooseUs from '../components/WhyChooseUs'
 import About from '../components/About'
 import HowToOrder from '../components/HowToOrder'
@@ -43,6 +44,7 @@ export default function Home() {
         </div>
       </section>
 
+      <PromoShowcase />
       <WhyChooseUs />
       <About />
       <HowToOrder />

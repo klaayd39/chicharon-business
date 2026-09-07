@@ -19,8 +19,12 @@ export default function ProductCard({ product, index = 0 }) {
       className="group h-full"
     >
       <div className="product-card h-full flex flex-col">
-        <Link to={`/products/${product.id}`} className="block relative overflow-hidden">
-          <ProductImage product={product} aspect="aspect-[4/3]" />
+        <Link to={`/products/${product.id}`} className="block relative overflow-hidden bg-cream">
+          <ProductImage
+            product={product}
+            aspect="aspect-[4/3]"
+            imageFit={product.imageFit}
+          />
           <span className="badge-pill absolute top-3 left-3 bg-white/95 text-red shadow-sm backdrop-blur-sm">
             {product.categoryLabel}
           </span>
