@@ -2,6 +2,7 @@ import { MapPin, Clock, Phone, Globe } from 'lucide-react'
 import SectionHeader from './ui/SectionHeader'
 import SectionReveal from './SectionReveal'
 import Button from './ui/Button'
+import BrandLogo from './ui/BrandLogo'
 import { businessConfig } from '../data/businessConfig'
 
 const contactItems = [
@@ -19,6 +20,9 @@ export default function Contact() {
 
         <SectionReveal delay={0.1}>
           <div className="max-w-lg mx-auto card p-6 sm:p-8">
+            <div className="flex justify-center mb-4">
+              <BrandLogo size="contact" />
+            </div>
             <h3 className="font-display text-xl sm:text-2xl font-semibold text-brown text-center mb-6 sm:mb-8">
               {businessConfig.name}
             </h3>

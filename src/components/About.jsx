@@ -1,4 +1,5 @@
 import SectionReveal from './SectionReveal'
+import BrandLogo from './ui/BrandLogo'
 import { businessConfig } from '../data/businessConfig'
 
 export default function About() {
@@ -8,13 +9,8 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <SectionReveal>
             <div className="relative max-w-md mx-auto lg:max-w-none">
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-amber-800/15 via-cream-dark to-brown/8 flex items-center justify-center border border-cream-dark/60">
-                <div className="text-center px-6">
-                  <span className="text-5xl sm:text-6xl mb-3 block" role="img" aria-label="Filipino food">🍽️</span>
-                  <p className="font-display text-brown/35 text-base sm:text-lg tracking-[0.15em] uppercase">
-                    {businessConfig.name}
-                  </p>
-                </div>
+              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-amber-800/15 via-cream-dark to-brown/8 flex items-center justify-center border border-cream-dark/60 p-8">
+                <BrandLogo size="hero" className="max-w-[220px] sm:max-w-[260px]" />
               </div>
             </div>
           </SectionReveal>

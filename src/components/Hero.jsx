@@ -2,8 +2,8 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MapPin, Clock, Truck, Store, ArrowRight } from 'lucide-react'
 import { businessConfig } from '../data/businessConfig'
-import { HeroImage } from './ProductImage'
 import Button from './ui/Button'
+import BrandLogo from './ui/BrandLogo'
 
 const badges = [
   {
@@ -95,9 +95,11 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="order-2 lg:order-none relative mx-auto w-full max-w-lg lg:max-w-none"
+            className="order-2 lg:order-none relative mx-auto w-full max-w-lg lg:max-w-none flex items-center justify-center"
           >
-            <HeroImage />
+            <div className="relative flex items-center justify-center w-full py-4 sm:py-8">
+              <BrandLogo size="hero" className="drop-shadow-lg" />
+            </div>
             <motion.div
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}

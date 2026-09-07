@@ -3,6 +3,7 @@ import { MapPin, Clock, Truck, Store } from 'lucide-react'
 import { businessConfig } from '../data/businessConfig'
 import { navLinks, productLinks } from '../constants/navigation'
 import { useHashNavigation } from '../hooks/useHashNavigation'
+import BrandLogo from './ui/BrandLogo'
 
 export default function Footer() {
   const { handleHashLinkClick } = useHashNavigation()
@@ -12,9 +13,7 @@ export default function Footer() {
       <div className="section-padding container-max py-12 sm:py-16 lg:py-20">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           <div className="col-span-2 lg:col-span-1">
-            <Link to="/" className="font-display text-xl sm:text-2xl font-semibold tracking-wide hover:text-cream/80 transition-colors">
-              {businessConfig.name}
-            </Link>
+            <BrandLogo size="footer" link className="mb-3" />
             <p className="text-cream/55 text-sm leading-relaxed mt-3 max-w-xs">
               {businessConfig.footerDescription}
             </p>

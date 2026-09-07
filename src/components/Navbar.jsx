@@ -2,13 +2,13 @@ import { useState, useEffect, useCallback } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import { businessConfig } from '../data/businessConfig'
 import { navLinks } from '../constants/navigation'
 import { useCart } from '../context/CartContext'
 import { useHashNavigation } from '../hooks/useHashNavigation'
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock'
 import Button from './ui/Button'
 import CartBadge from './cart/CartBadge'
+import BrandLogo from './ui/BrandLogo'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -59,12 +59,7 @@ export default function Navbar() {
         }`}
         aria-label="Main navigation"
       >
-        <Link
-          to="/"
-          className="font-display text-lg sm:text-xl lg:text-2xl font-semibold text-brown tracking-wide hover:text-red transition-colors shrink-0"
-        >
-          {businessConfig.name}
-        </Link>
+        <BrandLogo size="nav" link />
 
         <ul className="hidden lg:flex items-center gap-7">
           {navLinks.map((link) => (
