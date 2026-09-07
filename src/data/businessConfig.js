@@ -1,8 +1,8 @@
 export const businessConfig = {
-  name: 'Kingdams Food',
+  name: 'Kingdams Foods',
   logo: {
     src: '/images/logo.png',
-    alt: 'Kingdams Food logo',
+    alt: 'Kingdams Foods logo',
   },
   tagline: 'Coming Soon',
   headline: 'Crispy Favorites. Made to Satisfy.',
@@ -32,11 +32,11 @@ export const businessConfig = {
   /** Shown when product.price is null — update individual product prices in src/data/products.js */
   priceStatus: 'Price Coming Soon',
   totalStatus: 'Price to be confirmed',
-  copyright: '© 2026 Kingdams Food. All rights reserved.',
+  copyright: '© 2026 Kingdams Foods. All rights reserved.',
   about: {
     title: 'Good Food, Made for Sharing.',
     description:
-      'Kingdams Food is a local food business serving Malaybalay City, Bukidnon, offering chicharon and frozen longganisa for customers looking for convenient and satisfying food products.',
+      'Kingdams Foods is a local food business serving Malaybalay City, Bukidnon, offering chicharon and frozen longganisa for customers looking for convenient and satisfying food products.',
   },
   footerDescription:
     'Premium chicharon and frozen longganisa, proudly made for Malaybalay City and Bukidnon.',

@@ -17,7 +17,7 @@ export const products = [
     longDescription:
       'Our chicharon is made to deliver that satisfying crunch and savory flavor Filipinos love. Perfect for sharing with family and friends, or enjoying as a snack any time of day.',
     image: '/images/chicharon.jpg',
-    imageAlt: 'Crispy golden chicharon from Kingdams Food',
+    imageAlt: 'Crispy golden chicharon from Kingdams Foods',
     price: null,
     unit: 'pack',
     availability: 'available',
@@ -33,7 +33,7 @@ export const products = [
     longDescription:
       'Our frozen longganisa is conveniently packed and easy to prepare — ideal for breakfast, lunch, or dinner. A quality Filipino favorite, ready whenever you need it.',
     image: '/images/longganisa.jpg',
-    imageAlt: 'Frozen longganisa packs from Kingdams Food',
+    imageAlt: 'Frozen longganisa packs from Kingdams Foods',
     price: null,
     unit: 'pack',
     availability: 'available',
