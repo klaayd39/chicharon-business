@@ -16,7 +16,7 @@ export default function Navbar() {
   const { itemCount } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
-  const { scrollToSection } = useHashNavigation()
+  const { scrollToSection, scrollToTop } = useHashNavigation()
 
   useBodyScrollLock(mobileOpen)
 
@@ -74,6 +74,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   to={link.href}
+                  onClick={link.href === '/' ? scrollToTop : undefined}
                   className={`text-[13px] xl:text-sm font-medium transition-colors whitespace-nowrap ${
                     location.pathname === link.href
                       ? 'text-brown'
@@ -142,6 +143,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       to={link.href}
+                      onClick={link.href === '/' ? scrollToTop : undefined}
                       className={`block py-3 text-base font-medium transition-colors ${
                         location.pathname === link.href ? 'text-brown' : 'text-charcoal hover:text-brown'
                       }`}
