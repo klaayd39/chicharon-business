@@ -1,7 +1,6 @@
-import { createContext, useContext, useReducer, useCallback } from 'react'
+import { useReducer, useCallback } from 'react'
 import { toCartItem } from '../data/products'
-
-const CartContext = createContext(null)
+import { CartContext } from './cart-store'
 
 function cartReducer(state, action) {
   switch (action.type) {
@@ -112,12 +111,4 @@ export function CartProvider({ children }) {
       {children}
     </CartContext.Provider>
   )
-}
-
-export function useCart() {
-  const context = useContext(CartContext)
-  if (!context) {
-    throw new Error('useCart must be used within a CartProvider')
-  }
-  return context
 }

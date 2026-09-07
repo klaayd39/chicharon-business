@@ -4,7 +4,7 @@ export const businessConfig = {
     src: '/images/logo.png',
     alt: 'Kingdams Foods logo',
   },
-  tagline: 'Coming Soon',
+  tagline: 'Easy Meals, Pinoy Feels.',
   headline: 'Crispy Favorites. Made to Satisfy.',
   heroDescription:
     'Discover delicious chicharon and quality frozen longganisa, proudly serving Malaybalay City, Bukidnon.',

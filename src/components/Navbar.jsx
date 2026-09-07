@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { navLinks } from '../constants/navigation'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/useCart'
 import { useHashNavigation } from '../hooks/useHashNavigation'
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock'
 import Button from './ui/Button'
@@ -61,20 +61,20 @@ export default function Navbar() {
       >
         <BrandLogo size="nav" link />
 
-        <ul className="hidden lg:flex items-center gap-7">
+        <ul className="hidden lg:flex items-center gap-4 xl:gap-6">
           {navLinks.map((link) => (
             <li key={link.href}>
               {link.href.startsWith('/#') ? (
                 <button
                   onClick={() => handleNavClick(link.href)}
-                  className="text-sm font-medium text-charcoal/65 hover:text-brown transition-colors"
+                  className="text-[13px] xl:text-sm font-medium text-charcoal/65 hover:text-brown transition-colors whitespace-nowrap"
                 >
                   {link.label}
                 </button>
               ) : (
                 <Link
                   to={link.href}
-                  className={`text-sm font-medium transition-colors ${
+                  className={`text-[13px] xl:text-sm font-medium transition-colors whitespace-nowrap ${
                     location.pathname === link.href
                       ? 'text-brown'
                       : 'text-charcoal/65 hover:text-brown'

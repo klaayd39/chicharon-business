@@ -1,6 +1,4 @@
 import { useState } from 'react'
-import { Minus, Plus } from 'lucide-react'
-import { businessConfig } from '../data/businessConfig'
 
 const placeholders = {
   chicharon: {
@@ -34,11 +32,11 @@ function PlaceholderVisual({ product }) {
 }
 
 export default function ProductImage({ product, className = '', aspect = 'aspect-[4/3]' }) {
-  const [imgError, setImgError] = useState(false)
+  const [imgError, setImgError] = useState(!product.image)
 
   return (
     <div className={`relative overflow-hidden bg-cream-dark group ${aspect} ${className}`}>
-      {!imgError && (
+      {!imgError && product.image && (
         <img
           src={product.image}
           alt={product.imageAlt}
@@ -49,25 +47,6 @@ export default function ProductImage({ product, className = '', aspect = 'aspect
         />
       )}
       {imgError && <PlaceholderVisual product={product} />}
-    </div>
-  )
-}
-
-export function HeroImage({ className = '' }) {
-  return (
-    <div className={`relative overflow-hidden rounded-2xl shadow-lg shadow-brown/5 ${className}`}>
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-800/90 via-amber-700/70 to-brown/90" />
-      <div className="relative flex h-full min-h-[220px] sm:min-h-[300px] lg:min-h-[420px] items-center justify-center">
-        <div className="text-center p-6 sm:p-8">
-          <div className="flex justify-center gap-3 sm:gap-6 mb-3 sm:mb-4">
-            <span className="text-5xl sm:text-6xl lg:text-7xl drop-shadow-md" role="img" aria-label="Chicharon">🥓</span>
-            <span className="text-5xl sm:text-6xl lg:text-7xl drop-shadow-md" role="img" aria-label="Longganisa">🌭</span>
-          </div>
-          <p className="font-display text-cream/55 text-xs sm:text-sm tracking-[0.2em] uppercase">
-            {businessConfig.name}
-          </p>
-        </div>
-      </div>
     </div>
   )
 }

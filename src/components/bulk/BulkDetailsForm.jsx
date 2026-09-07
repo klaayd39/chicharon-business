@@ -6,10 +6,16 @@ const orderTypes = [
   { id: 'pickup', label: 'Pickup', desc: 'Pick up your order', icon: Store },
 ]
 
-// Prevent picking a past date
-const today = new Date().toISOString().split('T')[0]
+function localToday() {
+  const now = new Date()
+  const y = now.getFullYear()
+  const m = String(now.getMonth() + 1).padStart(2, '0')
+  const d = String(now.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
 
 export default function BulkDetailsForm({ form, errors, orderType, onFieldChange, onOrderTypeChange }) {
+  const today = localToday()
   return (
     <div className="space-y-6">
       {/* Customer info */}

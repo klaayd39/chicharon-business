@@ -14,6 +14,9 @@ export default function Footer() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           <div className="col-span-2 lg:col-span-1">
             <BrandLogo size="footer" link className="mb-3" />
+            {businessConfig.tagline && (
+              <p className="font-display italic text-cream/70 text-sm mt-2">{businessConfig.tagline}</p>
+            )}
             <p className="text-cream/55 text-sm leading-relaxed mt-3 max-w-xs">
               {businessConfig.footerDescription}
             </p>

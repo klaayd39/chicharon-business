@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/useCart'
 import { submitOrder } from '../utils/orderService'
 import { validateOrderForm, hasValidationErrors } from '../utils/orderValidation'
 import OrderDetailsForm from './order/OrderDetailsForm'

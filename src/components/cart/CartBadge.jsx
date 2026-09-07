@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingBag } from 'lucide-react'
-import { useCart } from '../../context/CartContext'
+import { useCart } from '../../context/useCart'
 
 export default function CartBadge() {
   const { itemCount, bump, openCart } = useCart()

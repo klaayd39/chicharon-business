@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom'
 import { businessConfig } from '../../data/businessConfig'
 
 const sizeClasses = {
-  nav: 'h-10 w-10 sm:h-11 sm:w-11',
-  footer: 'h-14 w-14',
-  hero: 'w-full max-w-[260px] sm:max-w-[320px] lg:max-w-[360px] h-auto',
-  contact: 'h-20 w-20',
+  nav: 'h-11 w-11 sm:h-12 sm:w-12 lg:h-14 lg:w-14',
+  footer: 'h-16 w-16',
+  hero: 'w-full max-w-[240px] sm:max-w-[300px] lg:max-w-[340px] h-auto',
+  contact: 'h-24 w-24',
 }
 
 export default function BrandLogo({ size = 'nav', link = false, className = '' }) {

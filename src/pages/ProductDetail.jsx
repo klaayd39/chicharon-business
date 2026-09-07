@@ -8,7 +8,7 @@ import AddToOrderButton from '../components/product/AddToOrderButton'
 import QuantityControl from '../components/ui/QuantityControl'
 import PageLayout from '../components/ui/PageLayout'
 import { getProductById, getPriceDisplay } from '../data/products'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../context/useCart'
 
 export default function ProductDetail() {
   const { id } = useParams()

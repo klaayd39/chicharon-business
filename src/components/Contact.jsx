@@ -23,9 +23,14 @@ export default function Contact() {
             <div className="flex justify-center mb-4">
               <BrandLogo size="contact" />
             </div>
-            <h3 className="font-display text-xl sm:text-2xl font-semibold text-brown text-center mb-6 sm:mb-8">
+            <h3 className="font-display text-xl sm:text-2xl font-semibold text-brown text-center mb-1">
               {businessConfig.name}
             </h3>
+            {businessConfig.tagline && (
+              <p className="text-center font-display italic text-brown/70 text-sm mb-6 sm:mb-8">
+                {businessConfig.tagline}
+              </p>
+            )}
 
             <div className="space-y-5">
               {contactItems.map((item) => (

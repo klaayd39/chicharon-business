@@ -1,16 +1,32 @@
-# React + Vite
+# Kingdams Foods
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Website for **Kingdams Foods**, a Filipino food business in Malaybalay City, Bukidnon offering chicharon and frozen longganisa.
 
-Currently, two official plugins are available:
+## Run locally
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Open the URL shown in the terminal (usually `http://localhost:5173`).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Update business details
 
-## Expanding the Oxlint configuration
+Edit `src/data/businessConfig.js` for:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- Business name, tagline, location, hours
+- Phone and Facebook (currently “Coming Soon”)
+- Logo path (`public/images/logo.png`)
+- Bulk order settings (`bulkOrder.minQuantity`, reference prefix)
+
+Edit `src/data/products.js` for products and prices. Leave `price: null` until real prices are available.
+
+Replace product images in `public/images/` (`chicharon.svg`, `longganisa.svg`) with actual photos when ready.
+
+## Ordering
+
+- Regular orders: add to cart → `/order`
+- Bulk orders: `/bulk-order` (separate flow, no account required)
+
+Both are frontend-only until a backend such as Supabase is connected. See comments in `src/utils/orderService.js` and `src/utils/bulkOrderService.js`.

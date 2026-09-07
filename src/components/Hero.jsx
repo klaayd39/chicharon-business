@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MapPin, Clock, Truck, Store, ArrowRight } from 'lucide-react'
 import { businessConfig } from '../data/businessConfig'
@@ -28,10 +27,9 @@ export default function Hero() {
     <section className="relative grain overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-cream via-cream to-cream-dark/40" />
 
-      <div className="relative section-padding container-max w-full pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
+      <div className="relative z-10 section-padding container-max w-full pt-24 pb-14 sm:pt-28 sm:pb-16 lg:pt-32 lg:pb-20">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 xl:gap-16 items-center">
-          {/* Text — order-first on mobile for instant clarity */}
-          <div className="order-1 lg:order-none">
+          <div>
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -55,7 +53,6 @@ export default function Hero() {
               </p>
             </motion.div>
 
-            {/* CTAs — visible immediately */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -71,12 +68,11 @@ export default function Hero() {
               </Button>
             </motion.div>
 
-            {/* Info badges */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-2 sm:grid-cols-2 gap-2 sm:gap-2.5"
+              className="grid grid-cols-2 gap-2 sm:gap-2.5"
             >
               {badges.map((badge) => (
                 <span
@@ -90,36 +86,16 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Hero image */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="order-2 lg:order-none relative mx-auto w-full max-w-lg lg:max-w-none flex items-center justify-center"
+            className="relative mx-auto w-full max-w-md lg:max-w-none flex flex-col items-center justify-center"
           >
-            <div className="relative flex items-center justify-center w-full py-4 sm:py-8">
-              <BrandLogo size="hero" className="drop-shadow-lg" />
-            </div>
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              className="absolute top-3 right-2 sm:top-4 sm:right-4 bg-white/95 rounded-xl shadow-md px-3 py-2 sm:px-4 sm:py-2.5 border border-cream-dark/80 max-w-[9.5rem] sm:max-w-none"
-            >
-              <p className="text-[10px] sm:text-xs text-warm-gray">Serving</p>
-              <p className="font-display text-sm sm:text-base text-brown font-semibold leading-tight">
-                Malaybalay City
-              </p>
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-              className="absolute bottom-3 left-2 sm:bottom-4 sm:left-4 bg-brown text-cream rounded-xl shadow-md px-3 py-2 sm:px-4 sm:py-2.5"
-            >
-              <p className="text-[10px] sm:text-xs text-cream/70">Open Daily</p>
-              <p className="font-semibold text-xs sm:text-sm leading-tight">
-                {businessConfig.businessHours.display}
-              </p>
-            </motion.div>
+            <BrandLogo size="hero" className="drop-shadow-lg" />
+            <p className="mt-4 font-display italic text-brown/70 text-sm sm:text-base text-center">
+              {businessConfig.tagline}
+            </p>
           </motion.div>
         </div>
       </div>

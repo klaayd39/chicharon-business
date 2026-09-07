@@ -3,15 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X } from 'lucide-react'
 
 export default function ProductSearch({ value, onChange }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [manualOpen, setManualOpen] = useState(false)
   const inputRef = useRef(null)
+  const isOpen = manualOpen || Boolean(value)
 
   const openSearch = useCallback(() => {
-    setIsOpen(true)
+    setManualOpen(true)
   }, [])
 
   const closeSearch = useCallback(() => {
-    if (!value) setIsOpen(false)
+    if (!value) setManualOpen(false)
   }, [value])
 
   useEffect(() => {
@@ -20,10 +21,6 @@ export default function ProductSearch({ value, onChange }) {
       return () => clearTimeout(timer)
     }
   }, [isOpen])
-
-  useEffect(() => {
-    if (value) setIsOpen(true)
-  }, [value])
 
   const handleClear = () => {
     onChange('')
@@ -35,7 +32,7 @@ export default function ProductSearch({ value, onChange }) {
       if (value) {
         onChange('')
       } else {
-        setIsOpen(false)
+        setManualOpen(false)
         e.currentTarget.blur()
       }
     }
@@ -79,7 +76,8 @@ export default function ProductSearch({ value, onChange }) {
             <input
               ref={inputRef}
               id="product-search"
-              type="search"
+              type="text"
+              role="searchbox"
               value={value}
               onChange={(e) => onChange(e.target.value)}
               onBlur={closeSearch}
