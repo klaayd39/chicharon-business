@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
 import Order from './pages/Order'
+import BulkOrder from './pages/BulkOrder'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -37,6 +38,7 @@ export default function App() {
               <Route path="/products" element={<Products />} />
               <Route path="/products/:id" element={<ProductDetail />} />
               <Route path="/order" element={<Order />} />
+              <Route path="/bulk-order" element={<BulkOrder />} />
             </Routes>
           </main>
           <Footer />

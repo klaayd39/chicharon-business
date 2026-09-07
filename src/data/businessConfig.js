@@ -32,6 +32,28 @@ export const businessConfig = {
   /** Shown when product.price is null — update individual product prices in src/data/products.js */
   priceStatus: 'Price Coming Soon',
   totalStatus: 'Price to be confirmed',
+  bulkOrder: {
+    /**
+     * BULK_ORDER_MIN_QUANTITY — minimum quantity per product for a bulk order.
+     * Leave null until the business provides a rule; when set to a number,
+     * the form will enforce it. Do not invent a value.
+     */
+    minQuantity: null,
+    /** Prefix used for generated bulk-order reference numbers, e.g. KF-A1B2C3 */
+    referencePrefix: 'KF',
+    /** Default status a new bulk-order request receives */
+    defaultStatus: 'pending',
+    /** Supported lifecycle statuses (for future admin dashboard) */
+    statuses: [
+      'pending',
+      'contacted',
+      'quoted',
+      'confirmed',
+      'preparing',
+      'completed',
+      'cancelled',
+    ],
+  },
   copyright: '© 2026 Kingdams Foods. All rights reserved.',
   about: {
     title: 'Good Food, Made for Sharing.',

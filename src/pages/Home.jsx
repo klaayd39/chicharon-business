@@ -4,6 +4,7 @@ import WhyChooseUs from '../components/WhyChooseUs'
 import About from '../components/About'
 import HowToOrder from '../components/HowToOrder'
 import DeliveryPickup from '../components/DeliveryPickup'
+import BulkOrderCTA from '../components/BulkOrderCTA'
 import Contact from '../components/Contact'
 import SectionHeader from '../components/ui/SectionHeader'
 import SectionReveal from '../components/SectionReveal'
@@ -41,6 +42,7 @@ export default function Home() {
       <About />
       <HowToOrder />
       <DeliveryPickup />
+      <BulkOrderCTA />
       <Contact />
     </>
   )
