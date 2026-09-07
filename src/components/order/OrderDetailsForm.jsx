@@ -25,10 +25,10 @@ export default function OrderDetailsForm({
               key={type.id}
               type="button"
               onClick={() => onOrderTypeChange(type.id)}
-              className={`p-4 rounded-xl border-2 text-left transition-all ${
+              className={`p-4 rounded-xl border-2 text-left transition-all duration-200 ${
                 orderType === type.id
-                  ? 'border-brown bg-brown/5 shadow-sm'
-                  : 'border-cream-dark bg-white hover:border-brown/25'
+                  ? 'border-brown bg-brown/5 shadow-md ring-1 ring-brown/10'
+                  : 'border-cream-dark bg-white hover:border-brown/25 hover:shadow-sm'
               }`}
               aria-pressed={orderType === type.id}
             >

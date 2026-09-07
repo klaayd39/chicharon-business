@@ -5,12 +5,12 @@ const placeholders = {
   longganisa: { emoji: '🌭', gradient: 'from-red-900/60 to-brown/80' },
 }
 
-export default function CartItemImage({ item, className = '' }) {
+export default function CartItemImage({ item, className = 'w-14 h-14 sm:w-16 sm:h-16' }) {
   const [imgError, setImgError] = useState(false)
   const placeholder = placeholders[item.id] || { emoji: '🍽️', gradient: 'from-brown/50 to-charcoal/70' }
 
   return (
-    <div className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-cream-dark shrink-0 ${className}`}>
+    <div className={`relative rounded-xl overflow-hidden bg-cream-dark shrink-0 ${className}`}>
       {!imgError && item.image ? (
         <img
           src={item.image}

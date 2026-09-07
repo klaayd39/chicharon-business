@@ -1,43 +1,81 @@
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { CheckCircle } from 'lucide-react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { CheckCircle, Truck, Store } from 'lucide-react'
 import { businessConfig } from '../../data/businessConfig'
 import Button from '../ui/Button'
 
-export default function OrderSuccess() {
+const ease = [0.22, 1, 0.36, 1]
+
+export default function OrderSuccess({ form, orderType }) {
   const navigate = useNavigate()
+  const prefersReducedMotion = useReducedMotion()
+  const isDelivery = orderType === 'delivery'
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="text-center py-12 sm:py-16 max-w-lg mx-auto"
+      transition={{ duration: 0.4, ease }}
+      className="max-w-lg mx-auto"
     >
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ type: 'spring', damping: 14, stiffness: 200, delay: 0.1 }}
-      >
-        <CheckCircle className="w-16 h-16 text-green-700 mx-auto mb-6" aria-hidden="true" />
-      </motion.div>
+      <div className="card p-6 sm:p-8 text-center">
+        <motion.div
+          initial={prefersReducedMotion ? false : { scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', damping: 14, stiffness: 200, delay: 0.1 }}
+          className="w-16 h-16 rounded-full bg-green-50 flex items-center justify-center mx-auto mb-6"
+        >
+          <CheckCircle className="w-10 h-10 text-green-700" aria-hidden="true" />
+        </motion.div>
 
-      <h2 className="font-display text-2xl sm:text-3xl font-semibold text-brown mb-2">
-        Order Request Received!
-      </h2>
-      <p className="font-medium text-brown/80 mb-4">Thank you for choosing {businessConfig.name}.</p>
-      <p className="text-warm-gray text-sm sm:text-base leading-relaxed mb-8">
-        Your order details have been recorded. We&apos;ll contact you to confirm availability,
-        pricing, and delivery/pickup details.
-      </p>
+        <h2 className="font-display text-2xl sm:text-3xl font-semibold text-brown mb-2">
+          Order Received
+        </h2>
+        <p className="font-medium text-brown/80 mb-1">
+          Thank you for ordering from {businessConfig.name}!
+        </p>
+        <p className="text-warm-gray text-sm sm:text-base leading-relaxed mb-6">
+          Your order details have been recorded. We&apos;ll contact you to confirm availability,
+          pricing, and {isDelivery ? 'delivery' : 'pickup'} details.
+        </p>
 
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <Button onClick={() => navigate('/products')} size="lg" className="w-full sm:w-auto">
-          Back to Products
-        </Button>
-        <Button onClick={() => navigate('/')} variant="secondary" size="lg" className="w-full sm:w-auto">
-          Continue Shopping
-        </Button>
+        <div className="text-left space-y-4 mb-8 p-4 rounded-xl bg-cream/60 border border-cream-dark/60">
+          <div className="flex items-start gap-3">
+            {isDelivery ? (
+              <Truck className="w-4 h-4 text-red shrink-0 mt-0.5" aria-hidden="true" />
+            ) : (
+              <Store className="w-4 h-4 text-red shrink-0 mt-0.5" aria-hidden="true" />
+            )}
+            <div>
+              <p className="text-xs font-semibold text-warm-gray uppercase tracking-wider mb-0.5">
+                {isDelivery ? 'Delivery' : 'Pickup'}
+              </p>
+              <p className="text-sm text-charcoal">
+                {isDelivery
+                  ? form.address || 'Address on file'
+                  : `${businessConfig.location.city}, ${businessConfig.location.province}`}
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold text-warm-gray uppercase tracking-wider mb-0.5">
+              Next Steps
+            </p>
+            <p className="text-sm text-charcoal">
+              We&apos;ll reach out via {form.contactNumber} to confirm your order.
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <Button onClick={() => navigate('/products')} size="lg" className="w-full sm:w-auto">
+            Continue Shopping
+          </Button>
+          <Button onClick={() => navigate('/')} variant="secondary" size="lg" className="w-full sm:w-auto">
+            Back to Home
+          </Button>
+        </div>
       </div>
     </motion.div>
   )

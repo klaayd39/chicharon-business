@@ -3,6 +3,7 @@ import { businessConfig } from './businessConfig'
 export const categories = [
   { id: 'all', label: 'All' },
   { id: 'chicharon', label: 'Chicharon' },
+  { id: 'longganisa', label: 'Longganisa' },
   { id: 'frozen-goods', label: 'Frozen Goods' },
 ]
 
@@ -26,8 +27,8 @@ export const products = [
   {
     id: 'longganisa',
     name: 'Longganisa',
-    category: 'frozen-goods',
-    categoryLabel: 'Frozen Goods',
+    category: 'longganisa',
+    categoryLabel: 'Longganisa',
     description:
       "Quality frozen longganisa that's easy to prepare and perfect for any meal.",
     longDescription:
@@ -61,6 +62,9 @@ export function getFeaturedProducts() {
 
 export function getProductsByCategory(categoryId) {
   if (categoryId === 'all') return products
+  if (categoryId === 'frozen-goods') {
+    return products.filter((p) => p.category === 'frozen-goods' || p.category === 'longganisa')
+  }
   return products.filter((p) => p.category === categoryId)
 }
 

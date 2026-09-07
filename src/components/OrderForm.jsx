@@ -7,6 +7,7 @@ import { validateOrderForm, hasValidationErrors } from '../utils/orderValidation
 import OrderDetailsForm from './order/OrderDetailsForm'
 import OrderReview from './order/OrderReview'
 import OrderSuccess from './order/OrderSuccess'
+import OrderStepIndicator from './ui/OrderStepIndicator'
 import Button from './ui/Button'
 
 export default function OrderForm() {
@@ -57,6 +58,7 @@ export default function OrderForm() {
     }
     setErrors({})
     setStep('review')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleConfirm = async () => {
@@ -93,6 +95,7 @@ export default function OrderForm() {
       if (result.success) {
         setStatus('success')
         clearCart()
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       } else {
         setStatus('error')
       }
@@ -103,7 +106,10 @@ export default function OrderForm() {
 
   if (items.length === 0 && status !== 'success') {
     return (
-      <div className="text-center py-16 sm:py-20">
+      <div className="text-center py-16 sm:py-20 card max-w-md mx-auto px-6">
+        <div className="w-14 h-14 rounded-2xl bg-cream-dark/60 flex items-center justify-center mx-auto mb-4">
+          <span className="text-2xl" aria-hidden="true">🛒</span>
+        </div>
         <p className="font-display text-2xl text-brown mb-2">No items in your order</p>
         <p className="text-warm-gray text-sm sm:text-base mb-8">Add some products before placing an order.</p>
         <Button onClick={() => navigate('/products')} size="lg">
@@ -114,16 +120,18 @@ export default function OrderForm() {
   }
 
   if (status === 'success') {
-    return <OrderSuccess />
+    return <OrderSuccess form={form} orderType={orderType} />
   }
 
   if (step === 'review') {
     return (
       <div className="max-w-xl mx-auto">
+        <OrderStepIndicator currentStep="review" />
+
         <OrderReview items={items} form={form} orderType={orderType} />
 
         {status === 'error' && (
-          <p className="text-red text-sm mt-4 p-3 bg-red/5 rounded-xl" role="alert">
+          <p className="text-red text-sm mt-4 p-3 bg-red/5 rounded-xl border border-red/10" role="alert">
             Something went wrong. Please try again.
           </p>
         )}
@@ -138,10 +146,10 @@ export default function OrderForm() {
             {status === 'loading' ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                Confirming...
+                Placing Order...
               </>
             ) : (
-              'Confirm Order'
+              'Place Order'
             )}
           </Button>
           <Button
@@ -156,7 +164,10 @@ export default function OrderForm() {
           </Button>
           <button
             type="button"
-            onClick={() => setStep('details')}
+            onClick={() => {
+              setStep('details')
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
             className="text-sm text-warm-gray hover:text-brown transition-colors py-2"
           >
             Edit order details
@@ -168,6 +179,8 @@ export default function OrderForm() {
 
   return (
     <form onSubmit={handleReview} className="max-w-xl mx-auto" noValidate>
+      <OrderStepIndicator currentStep="details" />
+
       <OrderDetailsForm
         form={form}
         errors={errors}

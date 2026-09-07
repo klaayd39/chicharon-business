@@ -11,7 +11,7 @@ export default function DeliveryPickup() {
 
         <div className="grid md:grid-cols-2 gap-4 sm:gap-5 mb-10 sm:mb-12">
           <SectionReveal delay={0.08}>
-            <div className="p-6 sm:p-8 rounded-2xl bg-cream border border-cream-dark/60 h-full">
+            <div className="p-6 sm:p-8 rounded-2xl bg-cream border border-cream-dark/60 h-full card-hover">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brown text-cream mb-4">
                 <Truck className="w-5 h-5" aria-hidden="true" />
               </div>
@@ -23,7 +23,7 @@ export default function DeliveryPickup() {
           </SectionReveal>
 
           <SectionReveal delay={0.14}>
-            <div className="p-6 sm:p-8 rounded-2xl bg-cream border border-cream-dark/60 h-full">
+            <div className="p-6 sm:p-8 rounded-2xl bg-cream border border-cream-dark/60 h-full card-hover">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brown text-cream mb-4">
                 <Store className="w-5 h-5" aria-hidden="true" />
               </div>

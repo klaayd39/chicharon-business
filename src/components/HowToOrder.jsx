@@ -17,8 +17,8 @@ export default function HowToOrder() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {steps.map((step, i) => (
             <SectionReveal key={step.number} delay={i * 0.08}>
-              <div className="card card-hover p-5 sm:p-6 h-full">
-                <span className="font-display text-3xl sm:text-4xl font-bold text-red/15 mb-3 block leading-none">
+              <div className="card card-hover p-5 sm:p-6 h-full relative overflow-hidden group">
+                <span className="font-display text-3xl sm:text-4xl font-bold text-red/15 mb-3 block leading-none group-hover:text-red/25 transition-colors">
                   {step.number}
                 </span>
                 <h3 className="font-display text-lg sm:text-xl font-semibold text-brown mb-1.5">

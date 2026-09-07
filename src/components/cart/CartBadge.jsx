@@ -8,7 +8,7 @@ export default function CartBadge() {
   return (
     <button
       onClick={openCart}
-      className="relative p-2.5 rounded-full hover:bg-brown/5 transition-colors"
+      className="relative p-2.5 rounded-full hover:bg-brown/5 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red"
       aria-label={`Open cart${itemCount > 0 ? `, ${itemCount} items` : ''}`}
     >
       <ShoppingBag className="w-5 h-5 text-brown" />
@@ -20,7 +20,7 @@ export default function CartBadge() {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.5, opacity: 0 }}
             transition={{ type: 'spring', damping: 12, stiffness: 400 }}
-            className="absolute top-0.5 right-0.5 flex h-4 min-w-4 px-0.5 items-center justify-center rounded-full bg-red text-[9px] font-bold text-cream"
+            className="absolute top-0.5 right-0.5 flex h-[18px] min-w-[18px] px-1 items-center justify-center rounded-full bg-red text-[10px] font-bold text-cream shadow-sm ring-2 ring-cream"
           >
             <motion.span
               key={bump}

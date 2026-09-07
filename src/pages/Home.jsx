@@ -5,6 +5,7 @@ import About from '../components/About'
 import HowToOrder from '../components/HowToOrder'
 import DeliveryPickup from '../components/DeliveryPickup'
 import BulkOrderCTA from '../components/BulkOrderCTA'
+import OrderCTA from '../components/OrderCTA'
 import Contact from '../components/Contact'
 import SectionHeader from '../components/ui/SectionHeader'
 import SectionReveal from '../components/SectionReveal'
@@ -20,9 +21,13 @@ export default function Home() {
 
       <section className="section-padding section-spacing">
         <div className="container-max">
-          <SectionHeader eyebrow="Our Menu" title="Our Favorites" />
+          <SectionHeader
+            eyebrow="Our Menu"
+            title="Our Favorites"
+            description="Handpicked Filipino favorites — crispy, savory, and ready when you are."
+          />
 
-          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 max-w-3xl sm:max-w-none mx-auto">
             {featured.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
@@ -43,6 +48,7 @@ export default function Home() {
       <HowToOrder />
       <DeliveryPickup />
       <BulkOrderCTA />
+      <OrderCTA />
       <Contact />
     </>
   )

@@ -2,6 +2,8 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, X } from 'lucide-react'
 
+const ease = [0.22, 1, 0.36, 1]
+
 export default function ProductSearch({ value, onChange }) {
   const [manualOpen, setManualOpen] = useState(false)
   const inputRef = useRef(null)
@@ -40,7 +42,7 @@ export default function ProductSearch({ value, onChange }) {
 
   return (
     <div className="w-full sm:w-auto sm:shrink-0">
-      <AnimatePresence initial={false}>
+      <AnimatePresence initial={false} mode="wait">
         {!isOpen ? (
           <motion.button
             key="toggle"
@@ -48,9 +50,9 @@ export default function ProductSearch({ value, onChange }) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.15 }}
+            transition={{ duration: 0.15, ease }}
             onClick={openSearch}
-            className="inline-flex items-center justify-center gap-2 px-4 py-2 sm:py-2.5 rounded-full text-sm font-medium text-charcoal/70 border border-cream-dark bg-white hover:border-brown/25 hover:text-brown transition-all w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-charcoal/70 border border-cream-dark bg-white hover:border-brown/30 hover:text-brown hover:shadow-sm transition-all w-full sm:w-auto"
             aria-label="Search products"
             aria-expanded={false}
           >
@@ -63,8 +65,8 @@ export default function ProductSearch({ value, onChange }) {
             initial={{ opacity: 0, width: '8rem' }}
             animate={{ opacity: 1, width: '100%' }}
             exit={{ opacity: 0, width: '8rem' }}
-            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full sm:min-w-[14rem] sm:max-w-xs"
+            transition={{ duration: 0.25, ease }}
+            className="relative w-full sm:min-w-[16rem] sm:max-w-xs"
           >
             <label htmlFor="product-search" className="sr-only">
               Search products
@@ -85,7 +87,7 @@ export default function ProductSearch({ value, onChange }) {
               placeholder="Search products..."
               autoComplete="off"
               enterKeyHint="search"
-              className="w-full pl-10 pr-10 py-2 sm:py-2.5 rounded-full text-sm bg-white border border-cream-dark text-charcoal placeholder:text-warm-gray-light transition-colors focus:outline-none focus:border-brown focus:ring-2 focus:ring-brown/10"
+              className="w-full pl-10 pr-10 py-2.5 rounded-full text-sm bg-white border border-cream-dark text-charcoal placeholder:text-warm-gray-light shadow-sm transition-all focus:outline-none focus:border-brown focus:ring-2 focus:ring-brown/10 focus:shadow-md"
               aria-label="Search products"
             />
             {value && (

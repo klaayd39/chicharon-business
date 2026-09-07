@@ -42,7 +42,7 @@ export default function ProductImage({ product, className = '', aspect = 'aspect
           alt={product.imageAlt}
           loading="lazy"
           decoding="async"
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
           onError={() => setImgError(true)}
         />
       )}

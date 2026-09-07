@@ -45,6 +45,8 @@ export default function CartDrawer() {
     setConfirmClear(false)
   }
 
+  const totalItems = items.reduce((sum, i) => sum + i.quantity, 0)
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -54,7 +56,7 @@ export default function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-charcoal/45 backdrop-blur-[2px] z-50"
+            className="fixed inset-0 bg-charcoal/50 backdrop-blur-[3px] z-50"
             onClick={closeCart}
             aria-hidden="true"
           />
@@ -69,15 +71,21 @@ export default function CartDrawer() {
             aria-modal="true"
             aria-label="Order cart"
           >
-            <div className="flex items-center justify-between px-4 sm:px-5 py-4 border-b border-cream-dark shrink-0">
+            <div className="flex items-center justify-between px-4 sm:px-5 py-4 border-b border-cream-dark bg-white/50 shrink-0">
               <div className="flex items-center gap-2.5 min-w-0">
-                <ShoppingBag className="w-5 h-5 text-brown shrink-0" />
-                <h2 className="font-display text-lg sm:text-xl font-semibold text-brown truncate">
-                  Your Order
-                </h2>
-                {itemCount > 0 && (
-                  <span className="text-xs text-warm-gray shrink-0">({itemCount})</span>
-                )}
+                <div className="w-9 h-9 rounded-xl bg-brown/5 flex items-center justify-center shrink-0">
+                  <ShoppingBag className="w-5 h-5 text-brown" />
+                </div>
+                <div className="min-w-0">
+                  <h2 className="font-display text-lg sm:text-xl font-semibold text-brown truncate">
+                    Your Order
+                  </h2>
+                  {itemCount > 0 && (
+                    <p className="text-xs text-warm-gray">
+                      {totalItems} item{totalItems !== 1 ? 's' : ''}
+                    </p>
+                  )}
+                </div>
               </div>
               <button
                 onClick={closeCart}
@@ -91,12 +99,12 @@ export default function CartDrawer() {
             <div className="flex-1 overflow-y-auto overscroll-contain px-4 sm:px-5 py-4">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center py-10">
-                  <div className="w-14 h-14 rounded-2xl bg-cream-dark/60 flex items-center justify-center mb-4">
-                    <ShoppingBag className="w-7 h-7 text-warm-gray-light" />
+                  <div className="w-16 h-16 rounded-2xl bg-cream-dark/60 flex items-center justify-center mb-4">
+                    <ShoppingBag className="w-8 h-8 text-warm-gray-light" />
                   </div>
-                  <p className="font-display text-lg text-brown mb-1.5">Your cart is empty</p>
-                  <p className="text-warm-gray text-sm mb-6 max-w-[14rem]">
-                    Browse our products and add your favorites.
+                  <p className="font-display text-xl text-brown mb-1.5">Your cart is empty</p>
+                  <p className="text-warm-gray text-sm mb-6 max-w-[16rem]">
+                    Browse our products and add your favorites to get started.
                   </p>
                   <Button to="/products" onClick={closeCart} size="md">
                     Browse Products
@@ -119,12 +127,16 @@ export default function CartDrawer() {
             </div>
 
             {items.length > 0 && (
-              <div className="px-4 sm:px-5 py-4 border-t border-cream-dark bg-white/60 shrink-0 safe-bottom space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-charcoal text-sm">Total</span>
-                  <span className="text-xs sm:text-sm text-warm-gray italic">
-                    {businessConfig.totalStatus}
-                  </span>
+              <div className="px-4 sm:px-5 py-4 border-t border-cream-dark bg-white shrink-0 safe-bottom space-y-3">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-warm-gray">Subtotal ({totalItems} items)</span>
+                    <span className="text-warm-gray italic">{businessConfig.totalStatus}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="font-display text-lg font-semibold text-brown">Total</span>
+                    <span className="text-sm text-warm-gray italic">{businessConfig.totalStatus}</span>
+                  </div>
                 </div>
                 <Button onClick={handleProceed} size="lg" className="w-full">
                   Proceed to Order
