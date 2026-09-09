@@ -1,4 +1,4 @@
-import { createContext, useEffect, useRef, useState } from 'react'
+import { createContext, useCallback, useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 
 export const SmoothScrollContext = createContext(null)
@@ -7,61 +7,59 @@ const NAV_OFFSET = -88
 
 export function SmoothScrollProvider({ children }) {
   const lenisRef = useRef(null)
-  const [ready, setReady] = useState(false)
-  const [scroll, setScroll] = useState(0)
-  const [progress, setProgress] = useState(0)
+  const listenersRef = useRef(new Set())
+
+  const notify = useCallback((scroll, progress) => {
+    listenersRef.current.forEach((listener) => listener(scroll, progress))
+  }, [])
+
+  const subscribeScroll = useCallback((listener) => {
+    listenersRef.current.add(listener)
+    return () => listenersRef.current.delete(listener)
+  }, [])
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    const updateNativeScroll = () => {
+    const onNativeScroll = () => {
       const limit = document.documentElement.scrollHeight - window.innerHeight
-      setScroll(window.scrollY)
-      setProgress(limit > 0 ? window.scrollY / limit : 0)
+      const scroll = window.scrollY
+      notify(scroll, limit > 0 ? scroll / limit : 0)
     }
 
     if (prefersReducedMotion) {
-      window.addEventListener('scroll', updateNativeScroll, { passive: true })
-      updateNativeScroll()
-      return () => window.removeEventListener('scroll', updateNativeScroll)
+      window.addEventListener('scroll', onNativeScroll, { passive: true })
+      onNativeScroll()
+      return () => window.removeEventListener('scroll', onNativeScroll)
     }
 
     const lenis = new Lenis({
-      duration: 1.2,
+      autoRaf: true,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.2,
+      anchors: false,
     })
 
     lenisRef.current = lenis
     document.documentElement.classList.add('lenis', 'lenis-smooth')
 
-    lenis.on('scroll', ({ scroll: y, limit }) => {
-      setScroll(y)
-      setProgress(limit > 0 ? y / limit : 0)
+    const unsubscribe = lenis.on('scroll', (instance) => {
+      notify(instance.scroll, instance.progress)
     })
 
-    setReady(true)
-
-    let frame
-    const raf = (time) => {
-      lenis.raf(time)
-      frame = requestAnimationFrame(raf)
-    }
-    frame = requestAnimationFrame(raf)
+    notify(0, 0)
 
     return () => {
-      cancelAnimationFrame(frame)
+      unsubscribe()
       document.documentElement.classList.remove('lenis', 'lenis-smooth')
       lenis.destroy()
       lenisRef.current = null
-      setReady(false)
-      setScroll(0)
-      setProgress(0)
     }
-  }, [])
+  }, [notify])
 
-  const scrollTo = (target, options = {}) => {
+  const scrollTo = useCallback((target, options = {}) => {
     const lenis = lenisRef.current
     if (!lenis) {
       if (typeof target === 'number') {
@@ -74,18 +72,30 @@ export function SmoothScrollProvider({ children }) {
 
     lenis.scrollTo(target, {
       offset: NAV_OFFSET,
-      duration: 1.15,
+      duration: 1.1,
       ...options,
     })
-  }
+  }, [])
 
-  const scrollToTop = () => {
-    scrollTo(0, { offset: 0, duration: 1 })
-  }
+  const scrollToTop = useCallback(() => {
+    scrollTo(0, { offset: 0, duration: 0.9 })
+  }, [scrollTo])
+
+  const resize = useCallback(() => {
+    lenisRef.current?.resize()
+  }, [])
+
+  const stop = useCallback(() => {
+    lenisRef.current?.stop()
+  }, [])
+
+  const start = useCallback(() => {
+    lenisRef.current?.start()
+  }, [])
 
   return (
     <SmoothScrollContext.Provider
-      value={{ scrollTo, scrollToTop, ready, scroll, progress }}
+      value={{ scrollTo, scrollToTop, resize, stop, start, subscribeScroll }}
     >
       {children}
     </SmoothScrollContext.Provider>

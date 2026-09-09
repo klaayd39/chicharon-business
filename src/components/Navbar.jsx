@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { useSmoothScroll } from '../context/useSmoothScroll'
+import { useScrolled } from '../context/useSmoothScroll'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ShoppingBag } from 'lucide-react'
@@ -20,8 +20,7 @@ function isLinkActive(href, pathname) {
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { scroll } = useSmoothScroll()
-  const scrolled = scroll > 24
+  const scrolled = useScrolled(24)
   const { itemCount, openCart } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
