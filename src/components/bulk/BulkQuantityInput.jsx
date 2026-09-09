@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Minus, Plus } from 'lucide-react'
 
 /**
@@ -6,21 +6,18 @@ import { Minus, Plus } from 'lucide-react'
  * Prevents zero/negative values. Allows temporary empty state while editing.
  */
 export default function BulkQuantityInput({ value, onChange, min = 1, label }) {
-  const [local, setLocal] = useState(String(value))
-
-  useEffect(() => {
-    setLocal(String(value))
-  }, [value])
+  const [draft, setDraft] = useState(null)
+  const displayedValue = draft ?? String(value)
 
   const commit = (next) => {
     const clamped = Math.max(min, next)
     onChange(clamped)
-    setLocal(String(clamped))
+    setDraft(null)
   }
 
   const handleInput = (e) => {
     const raw = e.target.value.replace(/[^\d]/g, '')
-    setLocal(raw)
+    setDraft(raw)
     if (raw !== '') {
       const parsed = parseInt(raw, 10)
       if (Number.isFinite(parsed) && parsed >= min) {
@@ -30,7 +27,7 @@ export default function BulkQuantityInput({ value, onChange, min = 1, label }) {
   }
 
   const handleBlur = () => {
-    const parsed = parseInt(local, 10)
+    const parsed = parseInt(displayedValue, 10)
     commit(Number.isFinite(parsed) ? parsed : min)
   }
 
@@ -52,7 +49,7 @@ export default function BulkQuantityInput({ value, onChange, min = 1, label }) {
       <input
         type="text"
         inputMode="numeric"
-        value={local}
+        value={displayedValue}
         onChange={handleInput}
         onBlur={handleBlur}
         className="w-12 text-center text-sm font-semibold text-brown tabular-nums bg-transparent focus:outline-none"

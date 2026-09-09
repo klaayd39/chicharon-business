@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react'
-import { SmoothScrollContext } from './SmoothScrollContext'
+import { SmoothScrollContext } from './smooth-scroll-store'
 
 const fallback = {
   scrollTo: (target) => {

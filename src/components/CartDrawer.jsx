@@ -15,24 +15,26 @@ export default function CartDrawer() {
 
   useBodyScrollLock(isOpen)
 
+  const closeDrawer = useCallback(() => {
+    setConfirmClear(false)
+    closeCart()
+  }, [closeCart])
+
   const handleKeyDown = useCallback(
     (e) => {
-      if (e.key === 'Escape') closeCart()
+      if (e.key === 'Escape') closeDrawer()
     },
-    [closeCart]
+    [closeDrawer]
   )
 
   useEffect(() => {
-    if (!isOpen) {
-      setConfirmClear(false)
-      return
-    }
+    if (!isOpen) return
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, handleKeyDown])
 
   const handleProceed = () => {
-    closeCart()
+    closeDrawer()
     navigate('/order')
   }
 
@@ -57,7 +59,7 @@ export default function CartDrawer() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 bg-charcoal/50 backdrop-blur-[3px] z-50"
-            onClick={closeCart}
+            onClick={closeDrawer}
             aria-hidden="true"
           />
 
@@ -88,7 +90,7 @@ export default function CartDrawer() {
                 </div>
               </div>
               <button
-                onClick={closeCart}
+                onClick={closeDrawer}
                 className="p-2 rounded-full hover:bg-brown/5 transition-colors shrink-0"
                 aria-label="Close cart"
               >
@@ -106,7 +108,7 @@ export default function CartDrawer() {
                   <p className="text-warm-gray text-sm mb-6 max-w-[16rem]">
                     Browse our products and add your favorites to get started.
                   </p>
-                  <Button to="/products" onClick={closeCart} size="md">
+                  <Button to="/products" onClick={closeDrawer} size="md">
                     Browse Products
                   </Button>
                 </div>

@@ -1,20 +1,22 @@
-import { createContext, useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import Lenis from 'lenis'
-
-export const SmoothScrollContext = createContext(null)
+import { SmoothScrollContext } from './smooth-scroll-store'
 
 const NAV_OFFSET = -88
 
 export function SmoothScrollProvider({ children }) {
   const lenisRef = useRef(null)
   const listenersRef = useRef(new Set())
+  const positionRef = useRef({ scroll: 0, progress: 0 })
 
   const notify = useCallback((scroll, progress) => {
+    positionRef.current = { scroll, progress }
     listenersRef.current.forEach((listener) => listener(scroll, progress))
   }, [])
 
   const subscribeScroll = useCallback((listener) => {
     listenersRef.current.add(listener)
+    listener(positionRef.current.scroll, positionRef.current.progress)
     return () => listenersRef.current.delete(listener)
   }, [])
 
@@ -93,9 +95,14 @@ export function SmoothScrollProvider({ children }) {
     lenisRef.current?.start()
   }, [])
 
+  const value = useMemo(
+    () => ({ scrollTo, scrollToTop, resize, stop, start, subscribeScroll }),
+    [scrollTo, scrollToTop, resize, stop, start, subscribeScroll]
+  )
+
   return (
     <SmoothScrollContext.Provider
-      value={{ scrollTo, scrollToTop, resize, stop, start, subscribeScroll }}
+      value={value}
     >
       {children}
     </SmoothScrollContext.Provider>

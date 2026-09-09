@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { useScrolled } from '../context/useSmoothScroll'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -28,10 +28,6 @@ export default function Navbar() {
 
   useBodyScrollLock(mobileOpen)
 
-  useEffect(() => {
-    setMobileOpen(false)
-  }, [location.pathname])
-
   const handleNavClick = useCallback(
     (href) => {
       setMobileOpen(false)
@@ -43,6 +39,13 @@ export default function Navbar() {
   const handleOrderNow = () => {
     setMobileOpen(false)
     navigate(itemCount > 0 ? '/order' : '/products')
+  }
+
+  const handleRouteLinkClick = (href) => (e) => {
+    setMobileOpen(false)
+    if (href === '/') {
+      scrollToTop(e)
+    }
   }
 
   const showSolidNav = scrolled || mobileOpen || location.pathname !== '/'
@@ -66,7 +69,7 @@ export default function Navbar() {
     return (
       <Link
         to={link.href}
-        onClick={link.href === '/' ? scrollToTop : undefined}
+        onClick={handleRouteLinkClick(link.href)}
         className={baseClass}
         aria-current={active ? 'page' : undefined}
       >

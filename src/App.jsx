@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { SmoothScrollProvider } from './context/SmoothScrollContext'
@@ -18,26 +18,21 @@ import BulkOrder from './pages/BulkOrder'
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
   const { scrollTo, scrollToTop, resize } = useSmoothScroll()
-  const scrollToRef = useRef(scrollTo)
-  const scrollToTopRef = useRef(scrollToTop)
-
-  scrollToRef.current = scrollTo
-  scrollToTopRef.current = scrollToTop
 
   useEffect(() => {
     const timer = setTimeout(() => {
       resize()
 
       if (hash) {
-        scrollToRef.current(`#${hash.slice(1)}`)
+        scrollTo(`#${hash.slice(1)}`)
         return
       }
 
-      scrollToTopRef.current()
+      scrollToTop()
     }, 50)
 
     return () => clearTimeout(timer)
-  }, [pathname, hash, resize])
+  }, [pathname, hash, resize, scrollTo, scrollToTop])
 
   return null
 }
