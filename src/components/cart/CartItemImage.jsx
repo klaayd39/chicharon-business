@@ -1,8 +1,12 @@
 import { useState } from 'react'
 
 const placeholders = {
-  chicharon: { emoji: '🥓', gradient: 'from-amber-800/70 to-amber-900/80' },
+  lumpia: { emoji: '🥟', gradient: 'from-amber-700/70 to-brown/80' },
+  tocino: { emoji: '🥓', gradient: 'from-red-800/60 to-brown/80' },
+  tapa: { emoji: '🥩', gradient: 'from-amber-900/60 to-charcoal/80' },
   longganisa: { emoji: '🌭', gradient: 'from-red-900/60 to-brown/80' },
+  bbq: { emoji: '🍢', gradient: 'from-amber-800/70 to-charcoal/80' },
+  chicharon: { emoji: '🥓', gradient: 'from-amber-800/70 to-amber-900/80' },
 }
 
 export default function CartItemImage({ item, className = 'w-14 h-14 sm:w-16 sm:h-16' }) {

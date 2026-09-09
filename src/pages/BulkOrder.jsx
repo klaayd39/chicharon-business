@@ -1,16 +1,22 @@
-import SectionHeader from '../components/ui/SectionHeader'
+import PageHeader from '../components/ui/PageHeader'
 import PageLayout from '../components/ui/PageLayout'
 import BulkOrderForm from '../components/bulk/BulkOrderForm'
 
 export default function BulkOrder() {
   return (
-    <PageLayout>
-      <SectionHeader
-        eyebrow="For Larger Orders"
-        title="Bulk Orders"
-        description="Planning a large order? Send us your requirements and we'll get back to you with availability and pricing. Bulk orders are subject to confirmation."
+    <>
+      <PageHeader
+        eyebrow="Bulk Orders"
+        title="Request a Bulk Order"
+        description="Planning a large order? Send us your requirements and we'll get back to you with availability and pricing."
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Bulk Order' },
+        ]}
       />
-      <BulkOrderForm />
-    </PageLayout>
+      <PageLayout className="section-surface-alt">
+        <BulkOrderForm />
+      </PageLayout>
+    </>
   )
 }

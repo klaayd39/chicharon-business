@@ -7,9 +7,6 @@ import { searchProducts } from '../utils/searchProducts'
 
 function filterByCategory(products, categoryId) {
   if (categoryId === 'all') return products
-  if (categoryId === 'frozen-goods') {
-    return products.filter((p) => p.category === 'frozen-goods' || p.category === 'longganisa')
-  }
   return products.filter((p) => p.category === categoryId)
 }
 
@@ -97,7 +94,7 @@ export default function ProductGrid({ products, showFilters = true }) {
           )}
         </div>
       ) : (
-        <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 max-w-3xl sm:max-w-none mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
           {filtered.map((product, i) => (
             <ProductCard key={product.id} product={product} index={i} />
           ))}

@@ -2,51 +2,126 @@ import { businessConfig } from './businessConfig'
 
 export const categories = [
   { id: 'all', label: 'All' },
-  { id: 'chicharon', label: 'Chicharon' },
+  { id: 'lumpia', label: 'Lumpia' },
+  { id: 'tocino', label: 'Tocino' },
+  { id: 'tapa', label: 'Tapa' },
   { id: 'longganisa', label: 'Longganisa' },
-  { id: 'frozen-goods', label: 'Frozen Goods' },
+  { id: 'bbq', label: 'BBQ' },
+  { id: 'chicharon', label: 'Chicharon' },
 ]
 
 export const products = [
   {
-    id: 'chicharon',
-    name: 'Chicharon',
-    category: 'chicharon',
-    categoryLabel: 'Chicharon',
-    description:
-      'Crispy, savory chicharon in 250g sealed packs — perfect for sharing or enjoying anytime.',
+    id: 'lumpia',
+    name: 'Lumpia',
+    category: 'lumpia',
+    categoryLabel: 'Lumpia',
+    description: 'Crispy, savory, and perfect for sharing.',
     longDescription:
-      'Our chicharon is made to deliver that satisfying crunch and savory flavor Filipinos love. Packed in 250g sealed bags and ready to enjoy — perfect for sharing with family and friends, or as a snack any time of day.',
-    image: '/images/chicharon-pack.jpg',
+      'Golden, crispy lumpia made for sharing at home — a Filipino favorite that brings everyone to the table.',
+    image: '/images/lumpia.png',
     images: [
-      {
-        src: '/images/chicharon-pack.jpg',
-        alt: 'Kingdams Foods chicharon in a 250g sealed pack',
-      },
-      {
-        src: '/images/chicharon-display.jpg',
-        alt: 'Kingdams Foods chicharon packs on display',
-      },
+      { src: '/images/lumpia.png', alt: 'Golden crispy lumpia with sweet chili dipping sauce' },
     ],
-    imageAlt: 'Kingdams Foods chicharon — crispy golden pork rinds in 250g pack',
-    imageFit: 'contain',
-    weight: '250g',
+    imageAlt: 'Golden crispy lumpia served with sweet chili dipping sauce',
+    imagePosition: 'center 55%',
     price: null,
     unit: 'pack',
     availability: 'available',
     featured: true,
+  },
+  {
+    id: 'tocino',
+    name: 'Tocino',
+    category: 'tocino',
+    categoryLabel: 'Tocino',
+    description: 'Sweet, savory, and perfect with garlic rice.',
+    longDescription:
+      'Sweet and savory tocino that pairs perfectly with garlic rice — an easy breakfast classic made convenient.',
+    image: '/images/tocino.png',
+    images: [
+      { src: '/images/tocino.png', alt: 'Sweet cured tocino with a glossy caramelized glaze' },
+    ],
+    imageAlt: 'Sweet cured tocino with a glossy caramelized glaze',
+    imagePosition: 'center 45%',
+    price: null,
+    unit: 'pack',
+    availability: 'available',
+    featured: false,
+  },
+  {
+    id: 'tapa',
+    name: 'Tapa',
+    category: 'tapa',
+    categoryLabel: 'Tapa',
+    description: 'Flavorful Filipino-style cured beef.',
+    longDescription:
+      'Savory Filipino-style tapa with rich, familiar flavor — easy to prepare for any meal of the day.',
+    image: '/images/tapa.jpg',
+    images: [
+      { src: '/images/tapa.jpg', alt: 'Filipino-style beef tapa with garlic and chili' },
+    ],
+    imageAlt: 'Filipino-style beef tapa with garlic and chili',
+    imagePosition: 'center 40%',
+    price: null,
+    unit: 'pack',
+    availability: 'available',
+    featured: false,
   },
   {
     id: 'longganisa',
     name: 'Longganisa',
     category: 'longganisa',
     categoryLabel: 'Longganisa',
-    description:
-      "Quality frozen longganisa that's easy to prepare and perfect for any meal.",
+    description: 'A classic Filipino breakfast favorite.',
     longDescription:
-      'Our frozen longganisa is conveniently packed and easy to prepare — ideal for breakfast, lunch, or dinner. A quality Filipino favorite, ready whenever you need it.',
-    image: '/images/longganisa.svg',
-    imageAlt: 'Frozen longganisa packs from Kingdams Foods',
+      'Juicy, flavorful longganisa — a classic Filipino breakfast favorite, conveniently packed and easy to prepare.',
+    image: '/images/longganisa.png',
+    images: [
+      { src: '/images/longganisa.png', alt: 'Pan-fried longganisa with a glossy caramelized glaze' },
+    ],
+    imageAlt: 'Pan-fried Filipino longganisa served with dipping sauce',
+    imagePosition: 'center 45%',
+    price: null,
+    unit: 'pack',
+    availability: 'available',
+    featured: true,
+  },
+  {
+    id: 'bbq',
+    name: 'BBQ',
+    category: 'bbq',
+    categoryLabel: 'BBQ',
+    description: 'Smoky, savory, and ready for grilling.',
+    longDescription:
+      'Smoky, savory Filipino-style BBQ — ready for the grill and perfect for gatherings and family meals.',
+    image: '/images/bbq.jpg',
+    images: [
+      { src: '/images/bbq.jpg', alt: 'Filipino-style BBQ skewers with glaze and lime' },
+    ],
+    imageAlt: 'Filipino-style BBQ skewers glazed and ready to grill',
+    imagePosition: 'center 50%',
+    price: null,
+    unit: 'pack',
+    availability: 'available',
+    featured: false,
+  },
+  {
+    id: 'chicharon',
+    name: 'Chicharon',
+    category: 'chicharon',
+    categoryLabel: 'Chicharon',
+    description: 'Crispy, crunchy, and irresistibly satisfying.',
+    longDescription:
+      'Our chicharon delivers that satisfying crunch and savory flavor Filipinos love. Packed in 250g sealed bags — perfect for sharing or snacking anytime.',
+    image: '/images/chicharon-pack.jpg',
+    images: [
+      { src: '/images/chicharon-pack.jpg', alt: 'Kingdams Foods chicharon in a 250g sealed pack' },
+    ],
+    imageAlt: 'Kingdams Foods chicharon — crispy golden pork rinds in 250g pack',
+    imageFit: 'contain',
+    imagePosition: 'center 92%',
+    weight: '250g',
     price: null,
     unit: 'pack',
     availability: 'available',
@@ -54,7 +129,6 @@ export const products = [
   },
 ]
 
-/** Update `price` on each product when pricing is available. null = "Price Coming Soon" */
 export function getPriceDisplay(product) {
   if (product.price != null) {
     return typeof product.price === 'number'
@@ -74,9 +148,6 @@ export function getFeaturedProducts() {
 
 export function getProductsByCategory(categoryId) {
   if (categoryId === 'all') return products
-  if (categoryId === 'frozen-goods') {
-    return products.filter((p) => p.category === 'frozen-goods' || p.category === 'longganisa')
-  }
   return products.filter((p) => p.category === categoryId)
 }
 

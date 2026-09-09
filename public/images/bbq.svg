@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="BBQ">
+  <defs>
+    <linearGradient id="bbq-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7A4A22"/>
+      <stop offset="55%" stop-color="#5C3D2E"/>
+      <stop offset="100%" stop-color="#3D2314"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bbq-bg)"/>
+  <rect x="310" y="250" width="180" height="22" rx="11" fill="#C4A35A" opacity="0.35"/>
+  <circle cx="340" cy="261" r="14" fill="#F7F3ED" opacity="0.2"/>
+  <circle cx="400" cy="261" r="14" fill="#F7F3ED" opacity="0.2"/>
+  <circle cx="460" cy="261" r="14" fill="#F7F3ED" opacity="0.2"/>
+  <text x="400" y="400" text-anchor="middle" font-family="Georgia, serif" font-size="48" fill="#F7F3ED" opacity="0.9">BBQ</text>
+</svg>

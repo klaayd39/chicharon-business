@@ -1,18 +1,23 @@
 import ProductGrid from '../components/ProductGrid'
-import SectionHeader from '../components/ui/SectionHeader'
+import PageHeader from '../components/ui/PageHeader'
 import PageLayout from '../components/ui/PageLayout'
 import { products } from '../data/products'
 
 export default function Products() {
   return (
-    <PageLayout>
-      <SectionHeader
-        eyebrow="Our Products"
+    <>
+      <PageHeader
+        eyebrow="Shop"
         title="Browse Our Selection"
-        description="Explore our chicharon and frozen longganisa — quality Filipino favorites made for you."
+        description="Explore lumpia, tocino, tapa, longganisa, BBQ, and chicharon — six Filipino favorites from Kingdams Foods."
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Products' },
+        ]}
       />
-
-      <ProductGrid products={products} />
-    </PageLayout>
+      <PageLayout className="section-surface-alt">
+        <ProductGrid products={products} />
+      </PageLayout>
+    </>
   )
 }

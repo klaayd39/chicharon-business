@@ -49,7 +49,7 @@ export default function AddToOrderButton({
             className="inline-flex items-center gap-2"
           >
             <Check className="w-4 h-4" aria-hidden="true" />
-            {showLabel && 'Added'}
+            {showLabel && 'Added ✓'}
           </motion.span>
         ) : (
           <motion.span
@@ -61,7 +61,7 @@ export default function AddToOrderButton({
             className="inline-flex items-center gap-2"
           >
             <ShoppingBag className="w-4 h-4" aria-hidden="true" />
-            {showLabel && 'Add to Order'}
+            {showLabel && 'Add to Cart'}
           </motion.span>
         )}
       </AnimatePresence>

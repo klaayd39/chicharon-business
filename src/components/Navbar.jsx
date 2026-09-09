@@ -1,30 +1,33 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useSmoothScroll } from '../context/useSmoothScroll'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ShoppingBag } from 'lucide-react'
 import { navLinks } from '../constants/navigation'
 import { useCart } from '../context/useCart'
 import { useHashNavigation } from '../hooks/useHashNavigation'
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock'
 import Button from './ui/Button'
-import CartBadge from './cart/CartBadge'
 import BrandLogo from './ui/BrandLogo'
 
+const ease = [0.22, 1, 0.36, 1]
+
+function isLinkActive(href, pathname) {
+  if (href === '/') return pathname === '/'
+  if (href.startsWith('/#')) return false
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { itemCount } = useCart()
+  const { scroll } = useSmoothScroll()
+  const scrolled = scroll > 24
+  const { itemCount, openCart } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
   const { scrollToSection, scrollToTop } = useHashNavigation()
 
   useBodyScrollLock(mobileOpen)
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     setMobileOpen(false)
@@ -43,131 +46,176 @@ export default function Navbar() {
     navigate(itemCount > 0 ? '/order' : '/products')
   }
 
-  const isHome = location.pathname === '/'
+  const showSolidNav = scrolled || mobileOpen || location.pathname !== '/'
+
+  const renderNavItem = (link, mobile = false) => {
+    const active = isLinkActive(link.href, location.pathname)
+    const baseClass = mobile
+      ? `flex items-center w-full px-4 py-3.5 text-base font-medium transition-colors border-b border-cream-dark/40 last:border-0 ${
+          active ? 'text-brown bg-brown/5' : 'text-charcoal hover:text-brown'
+        }`
+      : `nav-link-v2 ${active ? 'nav-link-v2-active' : ''}`
+
+    if (link.href.startsWith('/#')) {
+      return (
+        <button type="button" onClick={() => handleNavClick(link.href)} className={baseClass}>
+          {link.label}
+        </button>
+      )
+    }
+
+    return (
+      <Link
+        to={link.href}
+        onClick={link.href === '/' ? scrollToTop : undefined}
+        className={baseClass}
+        aria-current={active ? 'page' : undefined}
+      >
+        {link.label}
+      </Link>
+    )
+  }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled || mobileOpen
-          ? 'bg-cream/95 backdrop-blur-md shadow-md border-b border-cream-dark/60'
-          : 'bg-cream/80 backdrop-blur-sm lg:bg-transparent lg:backdrop-blur-none'
-      }`}
-    >
-      <nav
-        className={`section-padding container-max flex items-center justify-between transition-all duration-300 ${
-          scrolled ? 'py-3' : 'py-4 lg:py-5'
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+          showSolidNav
+            ? 'bg-cream/95 backdrop-blur-xl border-b border-cream-dark/60 shadow-sm shadow-brown/5'
+            : 'bg-cream/70 backdrop-blur-md'
         }`}
-        aria-label="Main navigation"
       >
-        <BrandLogo size="nav" link />
+        <nav
+          className={`section-padding container-wide grid grid-cols-[auto_1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center gap-3 transition-all duration-500 ${
+            scrolled ? 'py-2.5' : 'py-3.5'
+          }`}
+          aria-label="Main navigation"
+        >
+          <BrandLogo size="nav" link showName className="min-w-0" />
 
-        <ul className="hidden lg:flex items-center gap-4 xl:gap-6">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              {link.href.startsWith('/#') ? (
-                <button
-                  onClick={() => handleNavClick(link.href)}
-                  className="text-[13px] xl:text-sm font-medium text-charcoal/65 hover:text-brown transition-colors whitespace-nowrap"
-                >
-                  {link.label}
-                </button>
-              ) : (
-                <Link
-                  to={link.href}
-                  onClick={link.href === '/' ? scrollToTop : undefined}
-                  className={`text-[13px] xl:text-sm font-medium transition-colors whitespace-nowrap ${
-                    location.pathname === link.href
-                      ? 'text-brown'
-                      : 'text-charcoal/65 hover:text-brown'
-                  }`}
-                  aria-current={location.pathname === link.href ? 'page' : undefined}
-                >
-                  {link.label}
-                </Link>
+          {/* Desktop center nav */}
+          <div className="hidden lg:flex items-center justify-center gap-0.5">
+            {navLinks.map((link) => (
+              <span key={link.href}>{renderNavItem(link)}</span>
+            ))}
+          </div>
+
+          <div className="flex items-center justify-end gap-1 sm:gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={openCart}
+              className={`hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-sm font-medium transition-colors ${
+                itemCount > 0
+                  ? 'bg-brown text-cream hover:bg-brown-light'
+                  : 'text-brown hover:bg-brown/5'
+              }`}
+              aria-label={`Open cart${itemCount > 0 ? `, ${itemCount} items` : ''}`}
+            >
+              <ShoppingBag className="w-4 h-4" aria-hidden="true" />
+              <span>Cart{itemCount > 0 ? ` (${itemCount})` : ''}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={openCart}
+              className="sm:hidden relative p-2.5 rounded-full hover:bg-brown/5 transition-colors"
+              aria-label={`Open cart${itemCount > 0 ? `, ${itemCount} items` : ''}`}
+            >
+              <ShoppingBag className="w-5 h-5 text-brown" />
+              {itemCount > 0 && (
+                <span className="absolute top-1 right-1 flex h-4 min-w-4 px-1 items-center justify-center rounded-full bg-red text-[9px] font-bold text-cream">
+                  {itemCount > 9 ? '9+' : itemCount}
+                </span>
               )}
-            </li>
-          ))}
-        </ul>
+            </button>
 
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <CartBadge />
+            <Button onClick={handleOrderNow} size="sm" className="hidden sm:inline-flex">
+              Order Now
+            </Button>
 
-          <Button
-            onClick={handleOrderNow}
-            size="sm"
-            className="hidden sm:inline-flex shadow-sm"
-          >
-            Order Now
-          </Button>
-
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2.5 rounded-full hover:bg-brown/5 transition-colors"
-            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileOpen}
-            aria-controls="mobile-menu"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </nav>
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              className="lg:hidden p-2.5 rounded-full hover:bg-brown/5 transition-colors"
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+            >
+              <Menu className="w-5 h-5 text-brown" />
+            </button>
+          </div>
+        </nav>
+      </header>
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:hidden overflow-hidden bg-cream/98 backdrop-blur-md border-t border-cream-dark/60"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Mobile navigation"
-          >
-            <ul className="section-padding py-4 flex flex-col">
-              {navLinks.map((link, i) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.04 }}
+          <>
+            <motion.button
+              type="button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-[60] bg-charcoal/40 backdrop-blur-sm lg:hidden"
+              onClick={() => setMobileOpen(false)}
+              aria-label="Close menu"
+            />
+
+            <motion.div
+              id="mobile-menu"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 320 }}
+              className="fixed top-0 right-0 bottom-0 z-[70] w-[min(100%,20rem)] bg-cream shadow-2xl lg:hidden flex flex-col safe-bottom"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation"
+            >
+              <div className="flex items-center justify-between px-4 py-4 border-b border-cream-dark/70">
+                <BrandLogo size="nav" link showName />
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  className="p-2 rounded-full hover:bg-brown/5 transition-colors"
+                  aria-label="Close menu"
                 >
-                  {link.href.startsWith('/#') ? (
-                    <button
-                      onClick={() => handleNavClick(link.href)}
-                      className="block w-full text-left py-3 text-base font-medium text-charcoal hover:text-brown transition-colors"
-                    >
-                      {link.label}
-                    </button>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      onClick={link.href === '/' ? scrollToTop : undefined}
-                      className={`block py-3 text-base font-medium transition-colors ${
-                        location.pathname === link.href ? 'text-brown' : 'text-charcoal hover:text-brown'
-                      }`}
-                      aria-current={location.pathname === link.href ? 'page' : undefined}
-                    >
-                      {link.label}
-                    </Link>
-                  )}
-                </motion.li>
-              ))}
-              <li className="pt-3 pb-1">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto px-2 py-2">
+                {navLinks.map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: 16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.03, ease }}
+                  >
+                    {renderNavItem(link, true)}
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="p-4 border-t border-cream-dark/70 space-y-2 bg-white/60">
                 <Button onClick={handleOrderNow} size="lg" className="w-full">
                   Order Now
                 </Button>
-              </li>
-            </ul>
-          </motion.div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false)
+                    openCart()
+                  }}
+                  className="w-full py-3 text-sm font-medium text-brown"
+                >
+                  Cart{itemCount > 0 ? ` (${itemCount})` : ''}
+                </button>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-
-      {/* Subtle home indicator when at top */}
-      {!scrolled && isHome && (
-        <div className="hidden lg:block absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-brown/10 rounded-full" aria-hidden="true" />
-      )}
-    </header>
+    </>
   )
 }

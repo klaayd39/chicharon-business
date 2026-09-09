@@ -1,21 +1,23 @@
 import { useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useSmoothScroll } from '../context/useSmoothScroll'
 
 export function useHashNavigation() {
   const location = useLocation()
   const navigate = useNavigate()
+  const { scrollTo, scrollToTop: smoothScrollToTop } = useSmoothScroll()
 
   const scrollToTop = useCallback(
     (e) => {
       if (location.pathname !== '/') return
 
       e?.preventDefault()
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      smoothScrollToTop()
       if (location.hash) {
         navigate('/', { replace: true })
       }
     },
-    [location.pathname, location.hash, navigate]
+    [location.pathname, location.hash, navigate, smoothScrollToTop]
   )
 
   const scrollToSection = useCallback(
@@ -26,14 +28,14 @@ export function useHashNavigation() {
       const hash = `#${id}`
 
       if (location.pathname === '/' && location.hash === hash) {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+        scrollTo(`#${id}`)
       } else {
         navigate({ pathname: '/', hash: id })
       }
 
       return true
     },
-    [location.pathname, location.hash, navigate]
+    [location.pathname, location.hash, navigate, scrollTo]
   )
 
   const handleHashLinkClick = useCallback(
@@ -51,13 +53,13 @@ export function useHashNavigation() {
       if (location.pathname === '/') {
         e.preventDefault()
         if (location.hash === hash) {
-          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+          scrollTo(`#${id}`)
         } else {
           navigate({ pathname: '/', hash: id })
         }
       }
     },
-    [location.pathname, location.hash, navigate, scrollToTop]
+    [location.pathname, location.hash, navigate, scrollTo, scrollToTop]
   )
 
   return { scrollToSection, handleHashLinkClick, scrollToTop }

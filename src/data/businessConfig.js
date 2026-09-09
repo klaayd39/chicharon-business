@@ -9,9 +9,9 @@ export const businessConfig = {
     alt: 'Kingdams Foods promotional poster showing easy-to-cook Filipino favorites including lumpia, tapa, tocino, longganisa, BBQ, and chicharon',
   },
   tagline: 'Easy Meals, Pinoy Feels.',
-  headline: 'Authentic Filipino Favorites, Made to Satisfy.',
+  headline: 'Filipino Favorites, Made to Satisfy.',
   heroDescription:
-    'Crispy chicharon and quality frozen longganisa — proudly made for Malaybalay City and Bukidnon.',
+    'From crispy chicharon to savory longganisa, bring the flavors of home to your table.',
   location: {
     city: 'Malaybalay City',
     province: 'Bukidnon',
@@ -33,21 +33,12 @@ export const businessConfig = {
   },
   deliveryAvailable: true,
   pickupAvailable: true,
-  /** Shown when product.price is null — update individual product prices in src/data/products.js */
   priceStatus: 'Price Coming Soon',
   totalStatus: 'Price to be confirmed',
   bulkOrder: {
-    /**
-     * BULK_ORDER_MIN_QUANTITY — minimum quantity per product for a bulk order.
-     * Leave null until the business provides a rule; when set to a number,
-     * the form will enforce it. Do not invent a value.
-     */
     minQuantity: null,
-    /** Prefix used for generated bulk-order reference numbers, e.g. KF-A1B2C3 */
     referencePrefix: 'KF',
-    /** Default status a new bulk-order request receives */
     defaultStatus: 'pending',
-    /** Supported lifecycle statuses (for future admin dashboard) */
     statuses: [
       'pending',
       'contacted',
@@ -60,10 +51,10 @@ export const businessConfig = {
   },
   copyright: '© 2026 Kingdams Foods. All rights reserved.',
   about: {
-    title: 'Good Food, Made for Sharing.',
+    title: 'Easy Meals, Pinoy Feels.',
     description:
-      'Kingdams Foods is a local food business serving Malaybalay City, Bukidnon, offering chicharon and frozen longganisa for customers looking for convenient and satisfying food products.',
+      'Kingdams Foods makes it easy to enjoy the familiar flavors of Filipino home cooking — from crispy chicharon and juicy longganisa to lumpia, tapa, tocino, and BBQ. Proudly serving Malaybalay City, Bukidnon with quality products made for busy families, gatherings, and everyday meals.',
   },
   footerDescription:
-    'Premium chicharon and frozen longganisa, proudly made for Malaybalay City and Bukidnon.',
+    'Lumpia, tocino, tapa, longganisa, BBQ, and chicharon — Filipino favorites made for Malaybalay City and Bukidnon.',
 }

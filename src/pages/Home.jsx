@@ -1,12 +1,11 @@
 import Hero from '../components/Hero'
+import ProductCategories from '../components/ProductCategories'
 import ProductCard from '../components/ProductCard'
-import PromoShowcase from '../components/PromoShowcase'
+import BrandStory from '../components/BrandStory'
 import WhyChooseUs from '../components/WhyChooseUs'
-import About from '../components/About'
 import HowToOrder from '../components/HowToOrder'
-import DeliveryPickup from '../components/DeliveryPickup'
 import BulkOrderCTA from '../components/BulkOrderCTA'
-import OrderCTA from '../components/OrderCTA'
+import FinalCTA from '../components/FinalCTA'
 import Contact from '../components/Contact'
 import SectionHeader from '../components/ui/SectionHeader'
 import SectionReveal from '../components/SectionReveal'
@@ -19,23 +18,25 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <ProductCategories />
 
-      <section className="section-padding section-spacing">
+      <section className="section-padding section-spacing bg-cream-dark/15">
         <div className="container-max">
           <SectionHeader
-            eyebrow="Our Menu"
-            title="Our Favorites"
-            description="Handpicked Filipino favorites — crispy, savory, and ready when you are."
+            eyebrow="Best Sellers"
+            title="Fan Favorites"
+            description="Add a few favorites to your cart — then browse the full menu anytime."
+            align="left"
           />
 
-          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6 lg:gap-7 max-w-3xl sm:max-w-none mx-auto">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {featured.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
             ))}
           </div>
 
-          <SectionReveal delay={0.15}>
-            <div className="text-center mt-8 sm:mt-10">
+          <SectionReveal delay={0.1}>
+            <div className="mt-10 sm:mt-12">
               <Button to="/products" variant="secondary" size="lg">
                 View All Products
               </Button>
@@ -44,13 +45,11 @@ export default function Home() {
         </div>
       </section>
 
-      <PromoShowcase />
+      <BrandStory />
       <WhyChooseUs />
-      <About />
       <HowToOrder />
-      <DeliveryPickup />
       <BulkOrderCTA />
-      <OrderCTA />
+      <FinalCTA />
       <Contact />
     </>
   )

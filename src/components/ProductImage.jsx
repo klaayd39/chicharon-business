@@ -1,16 +1,12 @@
 import { useState } from 'react'
 
 const placeholders = {
-  chicharon: {
-    gradient: 'from-amber-800/80 via-amber-700/60 to-amber-900/80',
-    emoji: '🥓',
-    label: 'Chicharon',
-  },
-  longganisa: {
-    gradient: 'from-red-900/70 via-red-800/50 to-brown/80',
-    emoji: '🌭',
-    label: 'Longganisa',
-  },
+  lumpia: { gradient: 'from-amber-700/80 via-amber-800/60 to-brown/80', emoji: '🥟', label: 'Lumpia' },
+  tocino: { gradient: 'from-red-800/70 via-red-900/50 to-brown/80', emoji: '🥓', label: 'Tocino' },
+  tapa: { gradient: 'from-amber-900/70 via-brown/60 to-charcoal/80', emoji: '🥩', label: 'Tapa' },
+  longganisa: { gradient: 'from-red-900/70 via-red-800/50 to-brown/80', emoji: '🌭', label: 'Longganisa' },
+  bbq: { gradient: 'from-amber-800/80 via-brown/60 to-charcoal/80', emoji: '🍢', label: 'BBQ' },
+  chicharon: { gradient: 'from-amber-800/80 via-amber-700/60 to-amber-900/80', emoji: '🥓', label: 'Chicharon' },
 }
 
 function PlaceholderVisual({ product }) {
@@ -36,16 +32,17 @@ export default function ProductImage({ product, className = '', aspect = 'aspect
   const fit = imageFit ?? product.imageFit ?? 'cover'
 
   return (
-    <div className={`relative overflow-hidden bg-cream-dark group ${aspect} ${className}`}>
+    <div className={`relative overflow-hidden bg-cream-dark/40 group ${aspect} ${className}`}>
       {!imgError && product.image && (
         <img
           src={product.image}
           alt={product.imageAlt}
           loading="lazy"
           decoding="async"
-          className={`absolute inset-0 h-full w-full transition-transform duration-500 ease-out group-hover:scale-105 ${
+          className={`absolute inset-0 h-full w-full transition-transform duration-700 ease-out group-hover:scale-105 ${
             fit === 'contain' ? 'object-contain p-3 sm:p-4' : 'object-cover'
           }`}
+          style={{ objectPosition: product.imagePosition || 'center' }}
           onError={() => setImgError(true)}
         />
       )}

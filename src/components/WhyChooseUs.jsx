@@ -1,65 +1,56 @@
-import { Shield, Snowflake, Truck, Store, Heart } from 'lucide-react'
+import { UtensilsCrossed, ShieldCheck, ShoppingBag, Home } from 'lucide-react'
 import SectionHeader from './ui/SectionHeader'
 import SectionReveal from './SectionReveal'
 import { businessConfig } from '../data/businessConfig'
 
 const features = [
   {
-    icon: Shield,
+    icon: UtensilsCrossed,
+    title: 'Authentic Filipino Flavors',
+    description:
+      'Lumpia, tocino, tapa, longganisa, BBQ, and chicharon — familiar tastes made for everyday meals.',
+  },
+  {
+    icon: ShieldCheck,
     title: 'Quality Products',
-    description: 'Carefully prepared chicharon and longganisa made with attention to quality.',
+    description:
+      'Carefully prepared favorites with attention to quality, from crispy chicharon to savory longganisa.',
   },
   {
-    icon: Snowflake,
-    title: 'Fresh & Properly Stored',
-    description: 'Our frozen products are stored properly to maintain freshness and quality.',
+    icon: ShoppingBag,
+    title: 'Convenient Ordering',
+    description: 'Browse online, add to cart, and place your order in just a few simple steps.',
   },
   {
-    icon: Heart,
-    title: 'Local Filipino Favorite',
-    description: 'Authentic flavors that bring the taste of home to Malaybalay City and Bukidnon.',
+    icon: Home,
+    title: 'Made for Everyday Meals',
+    description: `Proudly serving ${businessConfig.location.city}, ${businessConfig.location.province} — easy meals for families and gatherings.`,
   },
-  ...(businessConfig.deliveryAvailable
-    ? [
-        {
-          icon: Truck,
-          title: 'Delivery Available',
-          description: 'Have your favorites delivered right to your preferred location.',
-        },
-      ]
-    : []),
-  ...(businessConfig.pickupAvailable
-    ? [
-        {
-          icon: Store,
-          title: 'Pickup Available',
-          description: 'Prefer to pick up? Visit us during business hours for convenient pickup.',
-        },
-      ]
-    : []),
 ]
 
 export default function WhyChooseUs() {
   return (
-    <section className="section-padding section-spacing bg-cream-dark/30">
+    <section className="section-padding section-spacing bg-cream-dark/20">
       <div className="container-max">
         <SectionHeader
-          eyebrow="Why Choose Us"
-          title={`The ${businessConfig.name} Difference`}
-          description="Quality Filipino food, made convenient for you."
+          eyebrow="Why Kingdams Foods"
+          title="Filipino Favorites You Can Trust"
+          description="Quality, convenience, and the flavors of home — all in one place."
         />
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-5">
+        <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
           {features.map((feature, i) => (
             <SectionReveal key={feature.title} delay={i * 0.06}>
-              <div className="card card-hover text-center p-5 sm:p-6 h-full group">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brown/5 text-brown mb-4 group-hover:bg-red/5 group-hover:text-red transition-colors duration-300">
+              <div className="flex gap-4 p-5 sm:p-6 bg-white border border-cream-dark/60 h-full transition-shadow duration-300 hover:shadow-md hover:shadow-brown/5">
+                <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-brown/5 text-brown shrink-0">
                   <feature.icon className="w-5 h-5" aria-hidden="true" />
                 </div>
-                <h3 className="font-display text-lg font-semibold text-brown mb-1.5">
-                  {feature.title}
-                </h3>
-                <p className="text-warm-gray text-sm leading-relaxed">{feature.description}</p>
+                <div>
+                  <h3 className="font-display text-lg sm:text-xl font-semibold text-brown mb-1.5">
+                    {feature.title}
+                  </h3>
+                  <p className="text-warm-gray text-sm leading-relaxed">{feature.description}</p>
+                </div>
               </div>
             </SectionReveal>
           ))}

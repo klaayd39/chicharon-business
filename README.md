@@ -29,4 +29,19 @@ Replace product images in `public/images/` (`chicharon.svg`, `longganisa.svg`) w
 - Regular orders: add to cart → `/order`
 - Bulk orders: `/bulk-order` (separate flow, no account required)
 
-Both are frontend-only until a backend such as Supabase is connected. See comments in `src/utils/orderService.js` and `src/utils/bulkOrderService.js`.
+### Google Sheets (recommended)
+
+You can save orders to a Google Sheet — no server required.
+
+1. Create a Google Sheet (e.g. “Kingdams Foods Orders”)
+2. **Extensions → Apps Script** → paste `google-apps-script/Code.gs` → Save
+3. **Deploy → New deployment → Web app** → Execute as **Me**, access **Anyone** → copy the URL
+4. Create `.env` in the project root:
+
+```bash
+VITE_GOOGLE_SHEETS_URL=https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec
+```
+
+5. Restart the dev server
+
+Orders appear in **Orders** and **Bulk Orders** tabs. Without this URL, the site runs in demo mode (orders logged to the browser console only).

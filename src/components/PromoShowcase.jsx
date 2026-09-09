@@ -13,7 +13,7 @@ const highlights = [
 
 export default function PromoShowcase() {
   return (
-    <section className="section-padding section-spacing bg-white overflow-hidden">
+    <section className="section-padding section-spacing section-surface section-divider overflow-hidden">
       <div className="container-max">
         <SectionHeader
           eyebrow="Our Range"

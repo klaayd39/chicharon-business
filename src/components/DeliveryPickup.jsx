@@ -5,7 +5,7 @@ import { businessConfig } from '../data/businessConfig'
 
 export default function DeliveryPickup() {
   return (
-    <section className="section-padding section-spacing bg-white">
+    <section className="section-padding section-spacing section-surface-alt">
       <div className="container-max">
         <SectionHeader eyebrow="Convenient Options" title="Your Order, Your Way." />
 

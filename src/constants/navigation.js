@@ -8,6 +8,10 @@ export const navLinks = [
 ]
 
 export const productLinks = [
-  { label: 'Chicharon', href: '/products/chicharon' },
+  { label: 'Lumpia', href: '/products/lumpia' },
+  { label: 'Tocino', href: '/products/tocino' },
+  { label: 'Tapa', href: '/products/tapa' },
   { label: 'Longganisa', href: '/products/longganisa' },
+  { label: 'BBQ', href: '/products/bbq' },
+  { label: 'Chicharon', href: '/products/chicharon' },
 ]
