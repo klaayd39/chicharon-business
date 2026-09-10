@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { useCart } from '../context/useCart'
@@ -8,8 +8,26 @@ import { validateOrderForm, hasValidationErrors } from '../utils/orderValidation
 import OrderDetailsForm from './order/OrderDetailsForm'
 import OrderReview from './order/OrderReview'
 import OrderSuccess from './order/OrderSuccess'
+import OrderCartSummary from './order/OrderCartSummary'
+import OrderStickyActions from './order/OrderStickyActions'
+import OrderEmptyState from './order/OrderEmptyState'
+import OrderAlert from './order/OrderAlert'
 import OrderStepIndicator from './ui/OrderStepIndicator'
 import Button from './ui/Button'
+
+const errorFieldIds = {
+  fullName: 'fullName',
+  contactNumber: 'contactNumber',
+  address: 'address',
+}
+
+function focusFirstError(errors) {
+  const firstKey = Object.keys(errors).find((key) => errorFieldIds[key])
+  if (!firstKey) return
+  requestAnimationFrame(() => {
+    document.getElementById(errorFieldIds[firstKey])?.focus()
+  })
+}
 
 export default function OrderForm() {
   const { items, clearCart, openCart } = useCart()
@@ -28,36 +46,33 @@ export default function OrderForm() {
   const [isDemoOrder, setIsDemoOrder] = useState(false)
   const scrollToTop = useFormScrollToTop()
 
-  const updateField = (field, value) => {
+  const updateField = useCallback((field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }))
-    if (errors[field]) {
-      setErrors((prev) => {
-        const next = { ...prev }
-        delete next[field]
-        return next
-      })
-    }
-  }
+    setErrors((prev) => {
+      if (!prev[field]) return prev
+      const next = { ...prev }
+      delete next[field]
+      return next
+    })
+  }, [])
 
-  const handleOrderTypeChange = (type) => {
+  const handleOrderTypeChange = useCallback((type) => {
     setOrderType(type)
-    if (type === 'pickup' && errors.address) {
-      setErrors((prev) => {
-        const next = { ...prev }
-        delete next.address
-        return next
-      })
-    }
-  }
+    setErrors((prev) => {
+      if (type !== 'pickup' || !prev.address) return prev
+      const next = { ...prev }
+      delete next.address
+      return next
+    })
+  }, [])
 
   const handleReview = (e) => {
     e.preventDefault()
-    const validationErrors = validateOrderForm(
-      { ...form, orderType },
-      items.length
-    )
+    const validationErrors = validateOrderForm({ ...form, orderType }, items.length)
     if (hasValidationErrors(validationErrors)) {
       setErrors(validationErrors)
+      focusFirstError(validationErrors)
+      scrollToTop()
       return
     }
     setErrors({})
@@ -66,13 +81,12 @@ export default function OrderForm() {
   }
 
   const handleConfirm = async () => {
-    const validationErrors = validateOrderForm(
-      { ...form, orderType },
-      items.length
-    )
+    const validationErrors = validateOrderForm({ ...form, orderType }, items.length)
     if (hasValidationErrors(validationErrors)) {
       setErrors(validationErrors)
       setStep('details')
+      scrollToTop()
+      focusFirstError(validationErrors)
       return
     }
 
@@ -112,16 +126,10 @@ export default function OrderForm() {
 
   if (items.length === 0 && status !== 'success') {
     return (
-      <div className="text-center py-16 sm:py-20 card max-w-md mx-auto px-6">
-        <div className="w-14 h-14 rounded-2xl bg-cream-dark/60 flex items-center justify-center mx-auto mb-4">
-          <span className="text-2xl" aria-hidden="true">🛒</span>
-        </div>
-        <p className="font-display text-2xl text-brown mb-2">No items in your order</p>
-        <p className="text-warm-gray text-sm sm:text-base mb-8">Add some products before placing an order.</p>
-        <Button onClick={() => navigate('/products')} size="lg">
-          Browse Products
-        </Button>
-      </div>
+      <OrderEmptyState
+        onBrowse={() => navigate('/products')}
+        onHome={() => navigate('/')}
+      />
     )
   }
 
@@ -138,62 +146,61 @@ export default function OrderForm() {
 
   if (step === 'review') {
     return (
-      <div className="max-w-xl mx-auto">
+      <div className="order-form-shell">
         <OrderStepIndicator currentStep="review" />
 
         <OrderReview items={items} form={form} orderType={orderType} />
 
         {status === 'error' && (
-          <p className="text-red text-sm mt-4 p-3 bg-red/5 rounded-xl border border-red/10" role="alert">
-            We couldn&apos;t submit your order. Check your connection and try again, or contact us
-            directly.
-          </p>
+          <div className="mt-4">
+            <OrderAlert title="Couldn't place your order">
+              Check your internet connection and try again. If the problem continues, contact us
+              directly and we&apos;ll help you complete your order.
+            </OrderAlert>
+          </div>
         )}
 
-        <div className="flex flex-col gap-3 mt-6">
+        <OrderStickyActions hint="Tap below to submit — we'll confirm pricing and availability by phone.">
           <Button
             onClick={handleConfirm}
             disabled={status === 'loading'}
             size="lg"
             className="w-full"
+            aria-busy={status === 'loading'}
           >
             {status === 'loading' ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                <Loader2 className="w-5 h-5 animate-spin mr-2" aria-hidden="true" />
                 Placing Order...
               </>
             ) : (
               'Place Order'
             )}
           </Button>
-          <Button
-            onClick={() => {
-              openCart()
-            }}
-            variant="secondary"
-            size="lg"
-            className="w-full"
-          >
+          <Button onClick={openCart} variant="secondary" size="lg" className="w-full">
             Back to Cart
           </Button>
           <button
             type="button"
             onClick={() => {
               setStep('details')
+              setStatus('idle')
               scrollToTop()
             }}
-            className="text-sm text-warm-gray hover:text-brown transition-colors py-2"
+            className="order-link-button text-sm text-warm-gray hover:text-brown transition-colors py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red rounded-lg"
           >
             Edit order details
           </button>
-        </div>
+        </OrderStickyActions>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleReview} className="max-w-xl mx-auto" noValidate>
+    <form onSubmit={handleReview} className="order-form-shell" noValidate>
       <OrderStepIndicator currentStep="details" />
+
+      <OrderCartSummary items={items} onEdit={openCart} />
 
       <OrderDetailsForm
         form={form}
@@ -203,20 +210,14 @@ export default function OrderForm() {
         onOrderTypeChange={handleOrderTypeChange}
       />
 
-      <div className="flex flex-col gap-3 mt-6 sticky bottom-0 bg-cream/95 backdrop-blur-sm py-4 -mx-4 px-4 sm:static sm:bg-transparent sm:backdrop-blur-none sm:p-0 sm:-mx-0 border-t border-cream-dark/50 sm:border-0">
+      <OrderStickyActions hint="Next, you'll review your order before submitting.">
         <Button type="submit" size="lg" className="w-full">
           Review Order
         </Button>
-        <Button
-          type="button"
-          onClick={() => openCart()}
-          variant="secondary"
-          size="lg"
-          className="w-full"
-        >
+        <Button type="button" onClick={openCart} variant="secondary" size="lg" className="w-full">
           Back to Cart
         </Button>
-      </div>
+      </OrderStickyActions>
     </form>
   )
 }
