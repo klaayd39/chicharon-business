@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
+import { useFormScrollToTop } from '../../hooks/useFormScrollToTop'
 import { products } from '../../data/products'
 import { submitBulkOrder } from '../../utils/bulkOrderService'
 import { validateBulkOrder, hasValidationErrors } from '../../utils/bulkOrderValidation'
@@ -30,6 +31,8 @@ export default function BulkOrderForm() {
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
   const [reference, setReference] = useState(null)
+  const [isDemoOrder, setIsDemoOrder] = useState(false)
+  const scrollToTop = useFormScrollToTop()
 
   const clearError = (field) => {
     setErrors((prev) => {
@@ -85,7 +88,7 @@ export default function BulkOrderForm() {
     e.preventDefault()
     if (!runValidation()) return
     setStep('review')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    scrollToTop()
   }
 
   const handleSubmit = async () => {
@@ -113,8 +116,9 @@ export default function BulkOrderForm() {
 
       if (result.success) {
         setReference(result.reference)
+        setIsDemoOrder(Boolean(result.demo))
         setStatus('success')
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        scrollToTop()
       } else {
         setStatus('error')
       }
@@ -124,7 +128,7 @@ export default function BulkOrderForm() {
   }
 
   if (status === 'success') {
-    return <BulkOrderSuccess reference={reference} />
+    return <BulkOrderSuccess reference={reference} demo={isDemoOrder} />
   }
 
   if (step === 'review') {
@@ -134,7 +138,8 @@ export default function BulkOrderForm() {
 
         {status === 'error' && (
           <p className="text-red text-sm mt-4 p-3 bg-red/5 rounded-xl" role="alert">
-            Something went wrong. Please try again.
+            We couldn&apos;t submit your request. Check your connection and try again, or contact us
+            directly.
           </p>
         )}
 
@@ -149,7 +154,15 @@ export default function BulkOrderForm() {
               'Submit Bulk Order Request'
             )}
           </Button>
-          <Button onClick={() => setStep('form')} variant="secondary" size="lg" className="w-full">
+          <Button
+            onClick={() => {
+              setStep('form')
+              scrollToTop()
+            }}
+            variant="secondary"
+            size="lg"
+            className="w-full"
+          >
             Edit Request
           </Button>
         </div>

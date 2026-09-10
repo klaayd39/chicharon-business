@@ -6,7 +6,7 @@ import Button from '../ui/Button'
 
 const ease = [0.22, 1, 0.36, 1]
 
-export default function OrderSuccess({ form, orderType }) {
+export default function OrderSuccess({ form, orderType, orderId, demo = false }) {
   const navigate = useNavigate()
   const prefersReducedMotion = useReducedMotion()
   const isDelivery = orderType === 'delivery'
@@ -38,6 +38,28 @@ export default function OrderSuccess({ form, orderType }) {
           Your order details have been recorded. We&apos;ll contact you to confirm availability,
           pricing, and {isDelivery ? 'delivery' : 'pickup'} details.
         </p>
+
+        {demo && (
+          <p
+            className="text-amber-900 text-sm mb-6 p-3 rounded-xl bg-amber-50 border border-amber-200/80"
+            role="status"
+          >
+            Demo mode: this order was not sent to our system yet. Please contact us directly to
+            confirm your order.
+          </p>
+        )}
+
+        {orderId && (
+          <div className="inline-flex flex-col items-center gap-1 px-6 py-4 rounded-xl bg-cream border border-cream-dark/60 mb-6 w-full sm:w-auto">
+            <span className="text-xs font-semibold text-warm-gray uppercase tracking-wider">
+              Your Order Reference
+            </span>
+            <span className="font-display text-xl font-semibold text-brown tracking-wide">
+              {orderId}
+            </span>
+            <span className="text-xs text-warm-gray mt-1">Status: Request Submitted</span>
+          </div>
+        )}
 
         <div className="text-left space-y-4 mb-8 p-4 rounded-xl bg-cream/60 border border-cream-dark/60">
           <div className="flex items-start gap-3">

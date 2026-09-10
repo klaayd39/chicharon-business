@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { useCart } from '../context/useCart'
+import { useFormScrollToTop } from '../hooks/useFormScrollToTop'
 import { submitOrder } from '../utils/orderService'
 import { validateOrderForm, hasValidationErrors } from '../utils/orderValidation'
 import OrderDetailsForm from './order/OrderDetailsForm'
@@ -23,6 +24,9 @@ export default function OrderForm() {
   })
   const [errors, setErrors] = useState({})
   const [status, setStatus] = useState('idle')
+  const [orderId, setOrderId] = useState(null)
+  const [isDemoOrder, setIsDemoOrder] = useState(false)
+  const scrollToTop = useFormScrollToTop()
 
   const updateField = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -58,7 +62,7 @@ export default function OrderForm() {
     }
     setErrors({})
     setStep('review')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    scrollToTop()
   }
 
   const handleConfirm = async () => {
@@ -93,9 +97,11 @@ export default function OrderForm() {
       })
 
       if (result.success) {
+        setOrderId(result.orderId ?? null)
+        setIsDemoOrder(Boolean(result.demo))
         setStatus('success')
         clearCart()
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        scrollToTop()
       } else {
         setStatus('error')
       }
@@ -120,7 +126,14 @@ export default function OrderForm() {
   }
 
   if (status === 'success') {
-    return <OrderSuccess form={form} orderType={orderType} />
+    return (
+      <OrderSuccess
+        form={form}
+        orderType={orderType}
+        orderId={orderId}
+        demo={isDemoOrder}
+      />
+    )
   }
 
   if (step === 'review') {
@@ -132,7 +145,8 @@ export default function OrderForm() {
 
         {status === 'error' && (
           <p className="text-red text-sm mt-4 p-3 bg-red/5 rounded-xl border border-red/10" role="alert">
-            Something went wrong. Please try again.
+            We couldn&apos;t submit your order. Check your connection and try again, or contact us
+            directly.
           </p>
         )}
 
@@ -166,7 +180,7 @@ export default function OrderForm() {
             type="button"
             onClick={() => {
               setStep('details')
-              window.scrollTo({ top: 0, behavior: 'smooth' })
+              scrollToTop()
             }}
             className="text-sm text-warm-gray hover:text-brown transition-colors py-2"
           >

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { useScrolled } from '../context/useSmoothScroll'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -12,9 +12,9 @@ import BrandLogo from './ui/BrandLogo'
 
 const ease = [0.22, 1, 0.36, 1]
 
-function isLinkActive(href, pathname) {
-  if (href === '/') return pathname === '/'
-  if (href.startsWith('/#')) return false
+function isLinkActive(href, pathname, hash) {
+  if (href === '/') return pathname === '/' && !hash
+  if (href.startsWith('/#')) return pathname === '/' && hash === href.slice(1)
   return pathname === href || pathname.startsWith(`${href}/`)
 }
 
@@ -27,6 +27,15 @@ export default function Navbar() {
   const { scrollToSection, scrollToTop } = useHashNavigation()
 
   useBodyScrollLock(mobileOpen)
+
+  useEffect(() => {
+    setMobileOpen(false)
+  }, [location.pathname, location.hash])
+
+  const handleOpenCart = useCallback(() => {
+    setMobileOpen(false)
+    openCart()
+  }, [openCart])
 
   const handleNavClick = useCallback(
     (href) => {
@@ -51,7 +60,7 @@ export default function Navbar() {
   const showSolidNav = scrolled || mobileOpen || location.pathname !== '/'
 
   const renderNavItem = (link, mobile = false) => {
-    const active = isLinkActive(link.href, location.pathname)
+    const active = isLinkActive(link.href, location.pathname, location.hash)
     const baseClass = mobile
       ? `flex items-center w-full px-4 py-3.5 text-base font-medium transition-colors border-b border-cream-dark/40 last:border-0 ${
           active ? 'text-brown bg-brown/5' : 'text-charcoal hover:text-brown'
@@ -105,7 +114,7 @@ export default function Navbar() {
           <div className="flex items-center justify-end gap-1 sm:gap-2 shrink-0">
             <button
               type="button"
-              onClick={openCart}
+              onClick={handleOpenCart}
               className={`hidden sm:inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-sm font-medium transition-colors ${
                 itemCount > 0
                   ? 'bg-brown text-cream hover:bg-brown-light'
@@ -119,7 +128,7 @@ export default function Navbar() {
 
             <button
               type="button"
-              onClick={openCart}
+              onClick={handleOpenCart}
               className="sm:hidden relative p-2.5 rounded-full hover:bg-brown/5 transition-colors"
               aria-label={`Open cart${itemCount > 0 ? `, ${itemCount} items` : ''}`}
             >
@@ -207,7 +216,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => {
                     setMobileOpen(false)
-                    openCart()
+                    handleOpenCart()
                   }}
                   className="w-full py-3 text-sm font-medium text-brown"
                 >

@@ -6,7 +6,9 @@ import Button from './ui/Button'
 export default function MobileShopBar() {
   const { itemCount, openCart } = useCart()
   const location = useLocation()
-  const isShop = location.pathname === '/' || location.pathname.startsWith('/products')
+  const isProductDetail = /^\/products\/[^/]+$/.test(location.pathname)
+  const isShop =
+    (location.pathname === '/' || location.pathname.startsWith('/products')) && !isProductDetail
 
   if (!isShop) return null
 

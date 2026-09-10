@@ -82,5 +82,6 @@ export async function submitBulkOrder(request) {
     success: true,
     reference,
     status: businessConfig.bulkOrder.defaultStatus,
+    demo: true,
   }
 }

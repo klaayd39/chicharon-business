@@ -6,7 +6,7 @@ import Button from '../ui/Button'
 
 const ease = [0.22, 1, 0.36, 1]
 
-export default function BulkOrderSuccess({ reference }) {
+export default function BulkOrderSuccess({ reference, demo = false }) {
   const navigate = useNavigate()
   const prefersReducedMotion = useReducedMotion()
 
@@ -34,6 +34,16 @@ export default function BulkOrderSuccess({ reference }) {
           Thank you for choosing {businessConfig.name}. We&apos;ve received your request and will
           contact you to confirm availability, pricing, and delivery or pickup details.
         </p>
+
+        {demo && (
+          <p
+            className="text-amber-900 text-sm mb-6 p-3 rounded-xl bg-amber-50 border border-amber-200/80"
+            role="status"
+          >
+            Demo mode: this request was not sent to our system yet. Please contact us directly to
+            confirm your bulk order.
+          </p>
+        )}
 
         {reference && (
           <div className="inline-flex flex-col items-center gap-1 px-6 py-4 rounded-xl bg-cream border border-cream-dark/60 mb-6 w-full sm:w-auto">

@@ -2,8 +2,7 @@ import { Check } from 'lucide-react'
 
 const steps = [
   { id: 'details', label: 'Your Info' },
-  { id: 'review', label: 'Review' },
-  { id: 'confirm', label: 'Confirm' },
+  { id: 'review', label: 'Review & Confirm' },
 ]
 
 export default function OrderStepIndicator({ currentStep }) {
